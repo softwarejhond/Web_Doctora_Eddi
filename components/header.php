@@ -24,11 +24,14 @@
                     <a class="btn btn-outline-light btn-sm nav-scroll-btn" href="#section-catalog">Especialidades</a>
                 </li>
                 <li class="nav-item">
+                    <a class="btn btn-outline-light btn-sm nav-scroll-btn" href="#section-about">Sobre Mí</a>
+                </li>
+                <li class="nav-item">
                     <a class="btn btn-outline-light btn-sm nav-scroll-btn" href="#section-process">Proceso</a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="btn btn-outline-light btn-sm nav-scroll-btn" href="#section-clients">Aliados</a>
-                </li> -->
+                <li class="nav-item">
+                    <a class="btn btn-outline-light btn-sm nav-scroll-btn" href="#section-clients">Testimonios</a>
+                </li>
                 <li class="nav-item">
                     <a class="btn btn-outline-light btn-sm nav-scroll-btn" href="#contacto">Contacto</a>
                 </li>

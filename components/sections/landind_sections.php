@@ -12,19 +12,19 @@
             <div class="col-lg-6 hero-content">
                 <p class="hero-overline">Medicina Integrativa y Regenerativa</p>
                 <h1 class="hero-title">
-                    Cuidamos tu <em>bienestar</em> de forma integral
+                    Medicina estética con <em>enfoque integrativo</em>: tratamos la causa, no solo el síntoma
                 </h1>
                 <div class="hero-divider"></div>
                 <p class="hero-subtitle">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod 
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                    quis nostrud exercitation ullamco laboris.
+                    Te acompaño con una valoración integral para entender tu cuerpo, 
+                    creando protocolos personalizados que logran resultados naturales, 
+                    armónicos y sostenibles.
                 </p>
 
                 <div class="d-flex flex-wrap gap-3 mt-4 mb-4">
-                    <span class="hero-badge"><i class="fas fa-heartbeat me-2"></i>Medicina Regenerativa</span>
-                    <span class="hero-badge"><i class="fas fa-leaf me-2"></i>Terapias Naturales</span>
-                    <span class="hero-badge"><i class="fas fa-dna me-2"></i>Tratamientos Avanzados</span>
+                    <span class="hero-badge"><i class="fas fa-magic me-2"></i>Medicina Estética</span>
+                    <span class="hero-badge"><i class="fas fa-leaf me-2"></i>Terapias Integrativas</span>
+                    <span class="hero-badge"><i class="fas fa-heartbeat me-2"></i>Bienestar Integral</span>
                 </div>
 
                 <div class="mt-4">

@@ -779,6 +779,88 @@
             .footer-contact { padding: 3rem 0 1.5rem; }
             .footer-header h2 { font-size: 1.8rem !important; }
         }
+
+        /* ===== SOBRE LA DOCTORA ===== */
+        .about-img-wrapper {
+            position: relative;
+        }
+
+        .about-img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            object-position: center 20%;
+            border-radius: 2px;
+            border: 1px solid #e8e4df;
+        }
+
+        .about-img-accent {
+            position: absolute;
+            bottom: -12px;
+            right: -12px;
+            width: 60%;
+            height: 60%;
+            border: 2px solid #c8bfb1;
+            border-radius: 2px;
+            z-index: -1;
+        }
+
+        .about-bio {
+            font-size: 1.05rem;
+            color: #6b726d;
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-philosophy {
+            background: #f5f3f0;
+            border-left: 3px solid #434f44;
+            border-radius: 0 2px 2px 0;
+            padding: 1.5rem 1.8rem;
+        }
+
+        .about-philosophy-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #434f44;
+            margin-bottom: 0.6rem;
+        }
+
+        .about-philosophy-text {
+            font-size: 0.95rem;
+            color: #6b726d;
+            line-height: 1.75;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        .about-credential {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #6b726d;
+            background: #f5f3f0;
+            border: 1px solid #e8e4df;
+            border-radius: 2px;
+            padding: 0.4rem 0.8rem;
+            letter-spacing: 0.3px;
+        }
+
+        .about-credential i {
+            color: #8a9a8b;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-img {
+                height: 350px;
+            }
+            .about-img-accent {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -791,6 +873,11 @@
     <!-- Catálogo de Especialidades -->
     <div class="container-fluid px-3 px-md-5 mb-5">
         <?php include 'components/sections/catalog_sections.php'; ?>
+    </div>
+
+    <!-- Sobre la Doctora -->
+    <div class="container-fluid px-3 px-md-5 mb-5">
+        <?php include 'components/sections/about_doctor.php'; ?>
     </div>
 
     <!-- Proceso / Timeline -->

@@ -9,14 +9,14 @@
     <div class="p-4 p-md-5">
         <!-- Encabezado -->
         <div class="text-center mb-5 welcome-glass p-4 p-md-5">
-            <p class="catalog-overtitle">Tu Experiencia</p>
+            <p class="catalog-overtitle">Nuestro Proceso</p>
             <h2 class="catalog-main-title">
-                Del primer contacto a tu <em>bienestar</em>
+                Del primer contacto a tu <em>transformación integral</em>
             </h2>
             <div class="welcome-divider mx-auto mt-3 mb-3"></div>
             <p class="catalog-intro mx-auto">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cada paso está 
-                diseñado para brindarte una experiencia médica personalizada y de calidad.
+                Cada paso está diseñado para brindarte una experiencia médica personalizada. 
+                Buscamos el origen para restaurar el equilibrio.
             </p>
         </div>
 
@@ -29,20 +29,20 @@
                 <div class="tl-dot"><span>1</span></div>
                 <div class="tl-content">
                     <span class="tl-label">Primer paso</span>
-                    <h3 class="tl-title">Consulta Inicial</h3>
+                    <h3 class="tl-title">Valoración Integral</h3>
                     <p class="tl-desc">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod 
-                        tempor incididunt ut labore et dolore magna aliqua. Evaluación completa 
-                        de tu historial clínico y objetivos de salud.
+                        Analizamos tu historia clínica, hábitos, estilo de vida y objetivos. 
+                        Realizamos una evaluación completa para entender tu cuerpo de manera 
+                        holística y personalizada.
                     </p>
                     <div class="tl-tags">
                         <span>Historia clínica</span>
-                        <span>Evaluación integral</span>
-                        <span>Objetivos</span>
+                        <span>Hábitos de vida</span>
+                        <span>Objetivos personales</span>
                     </div>
                 </div>
                 <div class="tl-image">
-                    <img src="https://images.pexels.com/photos/5214958/pexels-photo-5214958.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Consulta médica — Placeholder">
+                    <img src="img/consulta_4.jpeg" alt="Consulta médica — Placeholder" style="object-position: center 45%;">
                 </div>
             </div>
 
@@ -50,20 +50,20 @@
             <div class="tl-item tl-right" data-step="02">
                 <div class="tl-dot"><span>2</span></div>
                 <div class="tl-image">
-                    <img src="https://images.pexels.com/photos/4226119/pexels-photo-4226119.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Diagnóstico — Placeholder">
+                    <img src="img/valoracion_2.jpeg" alt="Diagnóstico — Placeholder" style="object-position: center 50%;">
                 </div>
                 <div class="tl-content">
                     <span class="tl-label">Diagnóstico</span>
-                    <h3 class="tl-title">Exámenes y Análisis</h3>
+                    <h3 class="tl-title">Diagnóstico Personalizado</h3>
                     <p class="tl-desc">
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
-                        ut aliquip ex ea commodo consequat. Laboratorio especializado y pruebas 
-                        de última generación.
+                        Entendemos qué está pasando en tu cuerpo y en tu piel. Identificamos 
+                        las causas raíz de los desequilibrios para crear un plan de acción 
+                        específico y efectivo.
                     </p>
                     <div class="tl-tags">
-                        <span>Laboratorio</span>
-                        <span>Imagenología</span>
-                        <span>Biomarcadores</span>
+                        <span>Análisis detallado</span>
+                        <span>Causa raíz</span>
+                        <span>Evaluación especializada</span>
                     </div>
                 </div>
             </div>
@@ -73,19 +73,20 @@
                 <div class="tl-dot"><span>3</span></div>
                 <div class="tl-content">
                     <span class="tl-label">Planificación</span>
-                    <h3 class="tl-title">Plan de Tratamiento</h3>
+                    <h3 class="tl-title">Diseño del Protocolo</h3>
                     <p class="tl-desc">
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
-                        eu fugiat nulla pariatur. Diseño personalizado del protocolo terapéutico.
+                        Creamos un plan a tu medida combinando medicina estética e integrativa. 
+                        Cada protocolo está adaptado a tu biología y objetivos, buscando 
+                        resultados armónicos, naturales y duraderos.
                     </p>
                     <div class="tl-tags">
                         <span>Protocolo personalizado</span>
-                        <span>Seguimiento</span>
-                        <span>Nutrición</span>
+                        <span>Medicina integrativa</span>
+                        <span>Plan a medida</span>
                     </div>
                 </div>
                 <div class="tl-image">
-                    <img src="https://images.pexels.com/photos/7579831/pexels-photo-7579831.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Plan de tratamiento — Placeholder">
+                    <img src="img/proceso_3.jpeg" alt="Plan de tratamiento — Placeholder" style="object-position: center 55%;">
                 </div>
             </div>
 
@@ -93,20 +94,20 @@
             <div class="tl-item tl-right" data-step="04">
                 <div class="tl-dot"><span>4</span></div>
                 <div class="tl-image">
-                    <img src="https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tratamiento — Placeholder">
+                    <img src="img/proceso_5.jpeg" alt="Tratamiento — Placeholder" style="object-position: center 35%;">
                 </div>
                 <div class="tl-content">
                     <span class="tl-label">Ejecución</span>
-                    <h3 class="tl-title">Sesiones de Tratamiento</h3>
+                    <h3 class="tl-title">Tratamiento</h3>
                     <p class="tl-desc">
-                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-                        deserunt mollit anim id est laborum. Terapias en ambiente clínico 
-                        controlado y seguro.
+                        Aplicación segura, ética y basada en evidencia científica. 
+                        Implementamos tu protocolo personalizado en un ambiente clínico 
+                        controlado, con la máxima seguridad y profesionalismo.
                     </p>
                     <div class="tl-tags">
-                        <span>Terapias regenerativas</span>
-                        <span>Monitoreo</span>
-                        <span>Seguridad</span>
+                        <span>Evidencia científica</span>
+                        <span>Aplicación segura</span>
+                        <span>Ambiente clínico</span>
                     </div>
                 </div>
             </div>
@@ -116,19 +117,20 @@
                 <div class="tl-dot"><span>5</span></div>
                 <div class="tl-content">
                     <span class="tl-label">Resultados</span>
-                    <h3 class="tl-title">Seguimiento y Bienestar</h3>
+                    <h3 class="tl-title">Seguimiento</h3>
                     <p class="tl-desc">
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium 
-                        doloremque laudantium. Monitoreo continuo de tu evolución y ajustes al plan.
+                        Acompañamiento continuo para optimizar resultados. Monitoreo 
+                        periódico de tu evolución y ajustes al plan para asegurar 
+                        el éxito de tu transformación integral.
                     </p>
                     <div class="tl-tags">
                         <span>Control periódico</span>
-                        <span>Ajustes</span>
-                        <span>Bienestar continuo</span>
+                        <span>Optimización continua</span>
+                        <span>Resultados duraderos</span>
                     </div>
                 </div>
                 <div class="tl-image">
-                    <img src="https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Seguimiento médico — Placeholder">
+                    <img src="img/seguimiento_1.jpeg" alt="Seguimiento médico — Placeholder" style="object-position: center 35%;">
                 </div>
             </div>
 
