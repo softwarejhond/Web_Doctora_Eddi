@@ -1,0 +1,526 @@
+/* =============================================
+   Widget de Accesibilidad — WCAG 2.1 AA/AAA
+   ============================================= */
+
+/* ===== Fuente OpenDyslexic (CDN) ===== */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ===== Botón flotante (FAB) ===== */
+.a11y-fab {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10000;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background: #434f44;
+    color: #ffffff;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    transition: background 0.2s ease;
+}
+.a11y-fab:hover,
+.a11y-fab:focus-visible {
+    background: #2d332e;
+    outline: 3px solid #c8bfb1;
+    outline-offset: 2px;
+}
+
+/* ===== Panel lateral ===== */
+.a11y-panel {
+    position: fixed;
+    right: 90px;
+    top: 50%;
+    z-index: 10001;
+    width: 320px;
+    max-height: 80vh;
+    background: #ffffff;
+    border: 1px solid #d4cfc8;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-50%) translateX(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s ease;
+    font-family: 'Inter', sans-serif;
+}
+.a11y-panel.a11y-open {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Header */
+.a11y-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid #e8e4df;
+    background: #434f44;
+    border-radius: 8px 8px 0 0;
+    color: #ffffff;
+}
+.a11y-panel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.a11y-close-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+.a11y-close-btn:hover,
+.a11y-close-btn:focus-visible {
+    background: rgba(255,255,255,0.15);
+    color: #ffffff;
+    outline: 2px solid #c8bfb1;
+}
+
+/* Body scrollable */
+.a11y-panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.8rem 1rem;
+}
+.a11y-panel-body::-webkit-scrollbar {
+    width: 5px;
+}
+.a11y-panel-body::-webkit-scrollbar-thumb {
+    background: #c4cec6;
+    border-radius: 4px;
+}
+
+/* Footer */
+.a11y-panel-footer {
+    padding: 0.6rem 1rem;
+    border-top: 1px solid #e8e4df;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #8a9a8b;
+}
+
+/* Reset */
+.a11y-reset-btn {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.8rem;
+    background: #f5f3f0;
+    border: 1px solid #e8e4df;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #6b726d;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.a11y-reset-btn:hover,
+.a11y-reset-btn:focus-visible {
+    background: #e8e4df;
+    outline: 2px solid #434f44;
+}
+
+/* Grupo */
+.a11y-group {
+    margin-bottom: 0.5rem;
+}
+.a11y-group-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #434f44;
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Fila de botones +-  */
+.a11y-btn-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.a11y-btn {
+    flex: 1;
+    padding: 0.45rem 0.6rem;
+    background: #f5f3f0;
+    border: 1px solid #e8e4df;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #434f44;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: background 0.15s, border-color 0.15s;
+}
+.a11y-btn:hover,
+.a11y-btn:focus-visible {
+    background: #e8e4df;
+    border-color: #c4cec6;
+    outline: 2px solid #434f44;
+}
+.a11y-level {
+    min-width: 50px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #2d332e;
+}
+
+/* Toggle buttons */
+.a11y-toggle-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.8rem;
+    background: #f5f3f0;
+    border: 1px solid #e8e4df;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #434f44;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    text-align: left;
+}
+.a11y-toggle-btn:hover,
+.a11y-toggle-btn:focus-visible {
+    background: #e8e4df;
+    border-color: #c4cec6;
+    outline: 2px solid #434f44;
+}
+.a11y-toggle-btn[aria-pressed="true"] {
+    background: #434f44;
+    color: #ffffff;
+    border-color: #434f44;
+}
+.a11y-toggle-btn[aria-pressed="true"] .a11y-toggle-icon {
+    color: #c8bfb1;
+}
+.a11y-toggle-icon {
+    width: 24px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #8a9a8b;
+}
+
+/* =============================================
+   CLASES APLICADAS AL <html> POR EL WIDGET
+   ============================================= */
+
+/* --- Fuente para dislexia --- */
+html.a11y-dyslexia-font,
+html.a11y-dyslexia-font body,
+html.a11y-dyslexia-font * {
+    font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+/* --- Alto contraste --- */
+html.a11y-high-contrast body {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+html.a11y-high-contrast .med-section,
+html.a11y-high-contrast .catalog-card,
+html.a11y-high-contrast .tl-content,
+html.a11y-high-contrast .testimonial-card,
+html.a11y-high-contrast .welcome-glass {
+    background: #000000 !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+}
+html.a11y-high-contrast h1,
+html.a11y-high-contrast h2,
+html.a11y-high-contrast h3,
+html.a11y-high-contrast h4,
+html.a11y-high-contrast h5,
+html.a11y-high-contrast h6,
+html.a11y-high-contrast .section-title,
+html.a11y-high-contrast .catalog-main-title,
+html.a11y-high-contrast .catalog-card-title,
+html.a11y-high-contrast .tl-title {
+    color: #ffff00 !important;
+}
+html.a11y-high-contrast a,
+html.a11y-high-contrast a:visited {
+    color: #00ffff !important;
+    text-decoration: underline !important;
+}
+html.a11y-high-contrast p,
+html.a11y-high-contrast span,
+html.a11y-high-contrast li,
+html.a11y-high-contrast .catalog-card-desc,
+html.a11y-high-contrast .tl-desc,
+html.a11y-high-contrast .catalog-intro {
+    color: #ffffff !important;
+}
+html.a11y-high-contrast img {
+    filter: contrast(1.2) !important;
+}
+html.a11y-high-contrast .med-header {
+    background: #000000 !important;
+    border-bottom: 2px solid #ffffff !important;
+}
+html.a11y-high-contrast .nav-scroll-btn {
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+html.a11y-high-contrast .hero-medical {
+    background: #000000 !important;
+}
+html.a11y-high-contrast .hero-medical::before {
+    opacity: 0.1 !important;
+}
+html.a11y-high-contrast .btn {
+    border: 2px solid #ffffff !important;
+}
+html.a11y-high-contrast .a11y-panel {
+    background: #1a1a1a !important;
+    border-color: #ffffff !important;
+}
+html.a11y-high-contrast .a11y-toggle-btn,
+html.a11y-high-contrast .a11y-btn,
+html.a11y-high-contrast .a11y-reset-btn {
+    background: #333333 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+html.a11y-high-contrast .a11y-toggle-btn[aria-pressed="true"] {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+/* --- Modo oscuro --- */
+html.a11y-dark-mode body {
+    background: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+html.a11y-dark-mode .med-section,
+html.a11y-dark-mode .catalog-card,
+html.a11y-dark-mode .tl-content,
+html.a11y-dark-mode .testimonial-card,
+html.a11y-dark-mode .welcome-glass {
+    background: #16213e !important;
+    border-color: #334155 !important;
+    color: #e0e0e0 !important;
+}
+html.a11y-dark-mode h1,
+html.a11y-dark-mode h2,
+html.a11y-dark-mode h3,
+html.a11y-dark-mode h4,
+html.a11y-dark-mode h5,
+html.a11y-dark-mode h6,
+html.a11y-dark-mode .section-title,
+html.a11y-dark-mode .catalog-main-title,
+html.a11y-dark-mode .catalog-card-title,
+html.a11y-dark-mode .tl-title {
+    color: #e2e8f0 !important;
+}
+html.a11y-dark-mode p,
+html.a11y-dark-mode span,
+html.a11y-dark-mode li,
+html.a11y-dark-mode .catalog-card-desc,
+html.a11y-dark-mode .tl-desc,
+html.a11y-dark-mode .catalog-intro {
+    color: #cbd5e1 !important;
+}
+html.a11y-dark-mode .hero-medical {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+}
+html.a11y-dark-mode .med-header {
+    background: #0f172a !important;
+}
+html.a11y-dark-mode .footer-contact {
+    background: #0f172a !important;
+}
+
+/* --- Invertir colores --- */
+html.a11y-invert-colors {
+    filter: invert(1) hue-rotate(180deg) !important;
+}
+html.a11y-invert-colors img,
+html.a11y-invert-colors video,
+html.a11y-invert-colors picture {
+    filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* --- Resaltar enlaces --- */
+html.a11y-highlight-links a {
+    outline: 2px solid #ff6600 !important;
+    outline-offset: 2px !important;
+    background: rgba(255, 102, 0, 0.1) !important;
+    text-decoration: underline !important;
+}
+
+/* --- Resaltar títulos --- */
+html.a11y-highlight-headings h1,
+html.a11y-highlight-headings h2,
+html.a11y-highlight-headings h3,
+html.a11y-highlight-headings h4,
+html.a11y-highlight-headings h5,
+html.a11y-highlight-headings h6 {
+    outline: 2px solid #0066ff !important;
+    outline-offset: 2px !important;
+    background: rgba(0, 102, 255, 0.08) !important;
+}
+
+/* --- Cursor grande --- */
+html.a11y-big-cursor,
+html.a11y-big-cursor * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M4 4l16 40 6-16 16-6z' fill='%23000' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") 4 4, auto !important;
+}
+
+/* --- Detener animaciones (WCAG 2.3.3) --- */
+html.a11y-stop-animations,
+html.a11y-stop-animations *,
+html.a11y-stop-animations *::before,
+html.a11y-stop-animations *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+}
+
+/* --- Enfoque visible (WCAG 2.4.7) --- */
+html.a11y-focus-outline *:focus {
+    outline: 3px solid #ff6600 !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 5px rgba(255, 102, 0, 0.3) !important;
+}
+
+/* --- Espaciado de texto (WCAG 1.4.12) --- */
+html.a11y-spacing-1 body {
+    letter-spacing: 0.05em !important;
+    word-spacing: 0.1em !important;
+    line-height: 1.8 !important;
+}
+html.a11y-spacing-1 p,
+html.a11y-spacing-1 li,
+html.a11y-spacing-1 span {
+    letter-spacing: 0.05em !important;
+    word-spacing: 0.1em !important;
+    line-height: 1.8 !important;
+}
+
+html.a11y-spacing-2 body {
+    letter-spacing: 0.1em !important;
+    word-spacing: 0.2em !important;
+    line-height: 2.0 !important;
+}
+html.a11y-spacing-2 p,
+html.a11y-spacing-2 li,
+html.a11y-spacing-2 span {
+    letter-spacing: 0.1em !important;
+    word-spacing: 0.2em !important;
+    line-height: 2.0 !important;
+}
+
+html.a11y-spacing-3 body {
+    letter-spacing: 0.16em !important;
+    word-spacing: 0.32em !important;
+    line-height: 2.4 !important;
+}
+html.a11y-spacing-3 p,
+html.a11y-spacing-3 li,
+html.a11y-spacing-3 span {
+    letter-spacing: 0.16em !important;
+    word-spacing: 0.32em !important;
+    line-height: 2.4 !important;
+}
+
+/* --- Saturación --- */
+html.a11y-saturation-low {
+    filter: saturate(0.3);
+}
+html.a11y-saturation-none {
+    filter: saturate(0);
+}
+html.a11y-saturation-high {
+    filter: saturate(1.8);
+}
+
+/* --- Guía de lectura --- */
+.a11y-reading-guide {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 200, 0, 0.35);
+    border-top: 2px solid rgba(255, 160, 0, 0.6);
+    border-bottom: 2px solid rgba(255, 160, 0, 0.6);
+    pointer-events: none;
+    z-index: 99999;
+    display: none;
+    transition: top 0.05s linear;
+}
+.a11y-reading-guide.active {
+    display: block;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+    .a11y-panel {
+        left: 8px;
+        right: 8px;
+        width: auto;
+        top: 50%;
+        transform: translateY(-50%) translateX(20px);
+        max-height: 70vh;
+    }
+    .a11y-panel.a11y-open {
+        transform: translateY(-50%) translateX(0);
+    }
+    .a11y-fab {
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+}
+
+/* ===== Respeta prefers-reduced-motion del SO ===== */
+@media (prefers-reduced-motion: reduce) {
+    .a11y-panel {
+        transition: none;
+    }
+    .a11y-fab {
+        transition: none;
+    }
+}

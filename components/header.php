@@ -36,10 +36,14 @@
                     <a class="btn btn-outline-light btn-sm nav-scroll-btn" href="#contacto">Contacto</a>
                 </li>
             </ul>
-            <div class="d-flex gap-2 ms-lg-3 mt-3 mt-lg-0">
-                <a href="#" target="_blank" class="nav-social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" class="nav-social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" class="nav-social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <div class="d-flex gap-2 ms-lg-3 mt-3 mt-lg-0 align-items-center">
+                <a href="https://www.instagram.com/doctora.eddi" target="_blank" class="nav-social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <div class="vr mx-2 opacity-25" style="height: 24px; border-color: #fff;"></div>
+                <button class="btn btn-outline-light btn-sm nav-scroll-btn d-flex align-items-center gap-2" 
+                        data-bs-toggle="modal" data-bs-target="#loginModal"
+                        style="border-color: rgba(200,191,177,.45); color: #c8bfb1;">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar
+                </button>
             </div>
         </div>
     </div>

@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctora Eddi — Medicina Integrativa y Regenerativa</title>
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS (local) -->
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom Bootstrap Colors & Buttons --> 
     <link href="css/custom-bootstrap.css?v=2.0" rel="stylesheet">
+    
+    <!-- Accesibilidad WCAG 2.1 -->
+    <link href="css/accessibility.css?v=1.0" rel="stylesheet">
     
     <!-- Font Awesome para iconos -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -893,8 +896,17 @@
     <!-- Footer / Contacto -->
     <?php include 'components/sections/footer_contact.php'; ?>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Widget de Accesibilidad WCAG -->
+    <?php include 'components/accessibility_widget.php'; ?>
+
+    <!-- Modal Login -->
+    <?php include 'components/login_modal.php'; ?>
+
+    <!-- Bootstrap JS (local) -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Accesibilidad JS -->
+    <script src="js/accessibility.js?v=1.0"></script>
     
     <script>
         // Timeline: reveal on scroll

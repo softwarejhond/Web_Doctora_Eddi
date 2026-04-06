@@ -1,0 +1,280 @@
+<?php
+/**
+ * Controlador de Citas — MEDIC EDDI
+ * CRUD completo vía AJAX (JSON).
+ * Acciones: list, create, update, update_status, delete, treatments
+ */
+
+session_start();
+header('Content-Type: application/json; charset=utf-8');
+
+require_once __DIR__ . '/conexion.php';
+
+// Verificar sesión activa
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'No autenticado.']);
+    exit;
+}
+
+$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+
+// ── Listar tratamientos (para el formulario) ──
+if ($action === 'treatments') {
+    $sql = "SELECT t.id, t.name, t.duration, tc.name AS category
+            FROM treatments t
+            JOIN treatment_categories tc ON tc.id = t.category_id
+            WHERE t.active = 1
+            ORDER BY tc.name, t.name";
+    $result = mysqli_query($conn, $sql);
+    $treatments = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $treatments[] = $row;
+    }
+    echo json_encode(['success' => true, 'data' => $treatments]);
+    exit;
+}
+
+// ── Listar citas (para FullCalendar) ──
+if ($action === 'list') {
+    $start = isset($_GET['start']) ? $_GET['start'] : date('Y-m-01');
+    $end   = isset($_GET['end'])   ? $_GET['end']   : date('Y-m-t');
+
+    $stmt = mysqli_prepare($conn,
+        "SELECT a.id, a.patient_name, a.patient_phone, a.patient_email,
+                a.treatment_id, t.name AS treatment_name, tc.name AS category_name,
+                a.duration, a.date_start, a.date_end, a.status,
+                a.cancel_reason, a.notes, a.created_by
+         FROM appointments a
+         JOIN treatments t ON t.id = a.treatment_id
+         JOIN treatment_categories tc ON tc.id = t.category_id
+         WHERE a.date_start >= ? AND a.date_end <= ?
+         ORDER BY a.date_start"
+    );
+    mysqli_stmt_bind_param($stmt, 'ss', $start, $end);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    $events = [];
+    $statusColors = [
+        'agendada'      => '#e6a817',
+        'confirmada'    => '#2e86de',
+        'cancelada'     => '#9c5b5b',
+        'completada'    => '#5a6b5c',
+        'no_presentado' => '#6b726d'
+    ];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $events[] = [
+            'id'    => $row['id'],
+            'title' => $row['patient_name'] . ' — ' . $row['treatment_name'],
+            'start' => $row['date_start'],
+            'end'   => $row['date_end'],
+            'color' => isset($statusColors[$row['status']]) ? $statusColors[$row['status']] : '#5a6b5c',
+            'extendedProps' => [
+                'patient_name'  => $row['patient_name'],
+                'patient_phone' => $row['patient_phone'],
+                'patient_email' => $row['patient_email'],
+                'treatment_id'  => $row['treatment_id'],
+                'treatment'     => $row['treatment_name'],
+                'category'      => $row['category_name'],
+                'duration'      => $row['duration'],
+                'status'        => $row['status'],
+                'cancel_reason' => $row['cancel_reason'],
+                'notes'         => $row['notes']
+            ]
+        ];
+    }
+
+    mysqli_stmt_close($stmt);
+    echo json_encode($events);
+    exit;
+}
+
+// A partir de aquí solo POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Método no permitido.']);
+    exit;
+}
+
+// ── Crear cita ──
+if ($action === 'create') {
+    $patient_name  = isset($_POST['patient_name'])  ? trim($_POST['patient_name'])  : '';
+    $patient_phone = isset($_POST['patient_phone']) ? trim($_POST['patient_phone']) : '';
+    $patient_email = isset($_POST['patient_email']) ? trim($_POST['patient_email']) : '';
+    $treatment_id  = isset($_POST['treatment_id'])  ? (int)$_POST['treatment_id']   : 0;
+    $duration      = isset($_POST['duration'])      ? (int)$_POST['duration']       : 60;
+    $date_start    = isset($_POST['date_start'])    ? trim($_POST['date_start'])    : '';
+    $notes         = isset($_POST['notes'])         ? trim($_POST['notes'])         : '';
+
+    // Validaciones
+    if (empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
+        echo json_encode(['success' => false, 'message' => 'Nombre del paciente, tratamiento y fecha son obligatorios.']);
+        exit;
+    }
+
+    if ($patient_email && !filter_var($patient_email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => 'El correo electrónico no es válido.']);
+        exit;
+    }
+
+    if ($duration < 15 || $duration > 480) {
+        $duration = 60;
+    }
+
+    // Calcular fecha fin
+    $startDt = new DateTime($date_start);
+    $endDt   = clone $startDt;
+    $endDt->modify("+{$duration} minutes");
+    $date_end = $endDt->format('Y-m-d H:i:s');
+
+    $created_by = (int)$_SESSION['user_id'];
+
+    $stmt = mysqli_prepare($conn,
+        "INSERT INTO appointments (patient_name, patient_phone, patient_email, treatment_id, duration, date_start, date_end, status, notes, created_by)
+         VALUES (?, ?, ?, ?, ?, ?, ?, 'agendada', ?, ?)"
+    );
+    mysqli_stmt_bind_param($stmt, 'sssiisssi',
+        $patient_name, $patient_phone, $patient_email,
+        $treatment_id, $duration, $date_start, $date_end,
+        $notes, $created_by
+    );
+
+    if (mysqli_stmt_execute($stmt)) {
+        $newId = mysqli_insert_id($conn);
+        echo json_encode(['success' => true, 'message' => 'Cita creada exitosamente.', 'id' => $newId]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al crear la cita.']);
+    }
+    mysqli_stmt_close($stmt);
+    exit;
+}
+
+// ── Actualizar cita (edición completa o drag & drop) ──
+if ($action === 'update') {
+    $id            = isset($_POST['id'])            ? (int)$_POST['id']            : 0;
+    $patient_name  = isset($_POST['patient_name'])  ? trim($_POST['patient_name'])  : '';
+    $patient_phone = isset($_POST['patient_phone']) ? trim($_POST['patient_phone']) : '';
+    $patient_email = isset($_POST['patient_email']) ? trim($_POST['patient_email']) : '';
+    $treatment_id  = isset($_POST['treatment_id'])  ? (int)$_POST['treatment_id']   : 0;
+    $duration      = isset($_POST['duration'])      ? (int)$_POST['duration']       : 60;
+    $date_start    = isset($_POST['date_start'])    ? trim($_POST['date_start'])    : '';
+    $notes         = isset($_POST['notes'])         ? trim($_POST['notes'])         : '';
+
+    if ($id <= 0 || empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
+        echo json_encode(['success' => false, 'message' => 'Datos incompletos para actualizar.']);
+        exit;
+    }
+
+    if ($duration < 15 || $duration > 480) {
+        $duration = 60;
+    }
+
+    $startDt = new DateTime($date_start);
+    $endDt   = clone $startDt;
+    $endDt->modify("+{$duration} minutes");
+    $date_end = $endDt->format('Y-m-d H:i:s');
+
+    $stmt = mysqli_prepare($conn,
+        "UPDATE appointments SET patient_name=?, patient_phone=?, patient_email=?,
+                treatment_id=?, duration=?, date_start=?, date_end=?, notes=?
+         WHERE id=?"
+    );
+    mysqli_stmt_bind_param($stmt, 'sssiisssi',
+        $patient_name, $patient_phone, $patient_email,
+        $treatment_id, $duration, $date_start, $date_end,
+        $notes, $id
+    );
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode(['success' => true, 'message' => 'Cita actualizada exitosamente.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al actualizar la cita.']);
+    }
+    mysqli_stmt_close($stmt);
+    exit;
+}
+
+// ── Reprogramar (drag & drop / resize) ──
+if ($action === 'reschedule') {
+    $id         = isset($_POST['id'])         ? (int)$_POST['id']         : 0;
+    $date_start = isset($_POST['date_start']) ? trim($_POST['date_start']) : '';
+    $date_end   = isset($_POST['date_end'])   ? trim($_POST['date_end'])   : '';
+
+    if ($id <= 0 || empty($date_start) || empty($date_end)) {
+        echo json_encode(['success' => false, 'message' => 'Datos incompletos para reprogramar.']);
+        exit;
+    }
+
+    // Recalcular duración
+    $s = new DateTime($date_start);
+    $e = new DateTime($date_end);
+    $diff = $s->diff($e);
+    $duration = ($diff->h * 60) + $diff->i;
+
+    $stmt = mysqli_prepare($conn,
+        "UPDATE appointments SET date_start=?, date_end=?, duration=? WHERE id=?"
+    );
+    mysqli_stmt_bind_param($stmt, 'ssii', $date_start, $date_end, $duration, $id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode(['success' => true, 'message' => 'Cita reprogramada.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al reprogramar.']);
+    }
+    mysqli_stmt_close($stmt);
+    exit;
+}
+
+// ── Cambiar estado ──
+if ($action === 'update_status') {
+    $id     = isset($_POST['id'])     ? (int)$_POST['id']     : 0;
+    $status = isset($_POST['status']) ? trim($_POST['status']) : '';
+    $cancel_reason = isset($_POST['cancel_reason']) ? trim($_POST['cancel_reason']) : null;
+
+    $validStatuses = ['agendada', 'confirmada', 'cancelada', 'completada', 'no_presentado'];
+    if ($id <= 0 || !in_array($status, $validStatuses)) {
+        echo json_encode(['success' => false, 'message' => 'Estado no válido.']);
+        exit;
+    }
+
+    if ($status === 'cancelada' && $cancel_reason) {
+        $stmt = mysqli_prepare($conn, "UPDATE appointments SET status=?, cancel_reason=? WHERE id=?");
+        mysqli_stmt_bind_param($stmt, 'ssi', $status, $cancel_reason, $id);
+    } else {
+        $stmt = mysqli_prepare($conn, "UPDATE appointments SET status=? WHERE id=?");
+        mysqli_stmt_bind_param($stmt, 'si', $status, $id);
+    }
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode(['success' => true, 'message' => 'Estado actualizado.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al actualizar estado.']);
+    }
+    mysqli_stmt_close($stmt);
+    exit;
+}
+
+// ── Eliminar cita ──
+if ($action === 'delete') {
+    $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+
+    if ($id <= 0) {
+        echo json_encode(['success' => false, 'message' => 'ID de cita no válido.']);
+        exit;
+    }
+
+    $stmt = mysqli_prepare($conn, "DELETE FROM appointments WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, 'i', $id);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode(['success' => true, 'message' => 'Cita eliminada.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al eliminar la cita.']);
+    }
+    mysqli_stmt_close($stmt);
+    exit;
+}
+
+echo json_encode(['success' => false, 'message' => 'Acción no reconocida.']);
