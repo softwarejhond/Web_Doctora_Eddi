@@ -6,40 +6,34 @@
 
 $testimonios = [
     [
-        'nombre' => 'María García',
-        'tratamiento' => 'Medicina Regenerativa',
+        'nombre' => 'Natalia Vahos',
+        'tratamiento' => 'Medicina Estética',
         'estrellas' => 5,
-        'texto' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'texto' => 'Mi experiencia con Dra Eddi fue excelente. Es una gran profesional que orientó las necesidades de mi piel. Su tratamiento fue muy acertado y la aplicación totalmente cómoda. Quedé muy feliz con mis resultados.',
     ],
     [
-        'nombre' => 'Carolina López',
-        'tratamiento' => 'Terapias Naturales',
+        'nombre' => 'Andrea Bolívar',
+        'tratamiento' => 'Medicina Estética',
         'estrellas' => 5,
-        'texto' => 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        'texto' => 'Muchas gracias por los procedimientos realizados: botox, sculptra y vitaminas. Me encanta cómo se ve mi rostro y cómo me siento. Mis cambios son notorios y mi piel se ve mucho mejor.',
     ],
     [
-        'nombre' => 'Andrea Martínez',
+        'nombre' => 'Aurora García',
+        'tratamiento' => 'Tratamiento Capilar y Facial',
+        'estrellas' => 5,
+        'texto' => 'Desde que inicié con la doctora Eddi, el cambio ha sido súper notorio: mi piel está más sana, luminosa y uniforme. La caída de mi cabello mejoró muchísimo. Estoy muy agradecida por su profesionalismo.',
+    ],
+    [
+        'nombre' => 'Andrea Escobar',
         'tratamiento' => 'Medicina Integrativa',
         'estrellas' => 5,
-        'texto' => 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        'texto' => 'Llevo dos meses en tratamiento. Pasé de 77 kg a 68 kg con alimentación balanceada, suplementación vitamínica y ejercicio. He logrado un cambio significativo físico, personal y emocional. Profundamente agradecida.',
     ],
     [
-        'nombre' => 'Laura Rodríguez',
-        'tratamiento' => 'Medicina Estética',
-        'estrellas' => 4,
-        'texto' => 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    ],
-    [
-        'nombre' => 'Valentina Pérez',
-        'tratamiento' => 'Bienestar y Prevención',
+        'nombre' => 'Elena',
+        'tratamiento' => 'Tratamiento Capilar y Facial',
         'estrellas' => 5,
-        'texto' => 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem.',
-    ],
-    [
-        'nombre' => 'Daniela Torres',
-        'tratamiento' => 'Medicina Regenerativa',
-        'estrellas' => 5,
-        'texto' => 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni.',
+        'texto' => 'Desde que llegué, la piel de mi rostro ha cambiado: tono parejo, brillo, lozanía, firmeza. La terapia capilar ha restaurado mi cabello, aumentado su grosor y brillo. Los logros se notan.',
     ],
 ];
 ?>
