@@ -46,8 +46,8 @@ $testimonios = [
         </h2>
         <div class="welcome-divider mx-auto mt-3 mb-3"></div>
         <p class="catalog-intro mx-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. La confianza 
-            y el bienestar de nuestras pacientes es nuestra mayor satisfacción.
+            Descubre las experiencias reales de quienes han confiado en nuestra atención profesional. 
+            La satisfacción y el bienestar de nuestros pacientes es nuestra mayor motivación.
         </p>
     </div>
 
