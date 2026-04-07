@@ -3,6 +3,26 @@
  * Paleta médica profesional — Sage green, crema y tonos naturales
  */
 
+@font-face {
+  font-family: 'Sparose';
+  src: url('fonts/fonnts.com-Sparose.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.eagle-software-link {
+  font-family: 'Sparose', sans-serif;
+  color: #ffffff;
+  text-decoration: none !important;
+  transition: opacity 0.3s ease;
+}
+
+.eagle-software-link:hover {
+  opacity: 0.8;
+  color: #ffffff;
+}
+
 :root {
   /* ========================================
      COLORES THEME — MEDICINA INTEGRATIVA

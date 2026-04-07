@@ -9,7 +9,7 @@
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Custom Bootstrap Colors & Buttons --> 
-    <link href="css/custom-bootstrap.css?v=2.0" rel="stylesheet">
+    <link href="css/custom-bootstrap.css?v=2.5" rel="stylesheet">
     
     <!-- Accesibilidad WCAG 2.1 -->
     <link href="css/accessibility.css?v=1.0" rel="stylesheet">

@@ -117,8 +117,7 @@
         <!-- Barra inferior -->
         <div class="footer-bottom text-center mt-5 pt-4">
             <p class="text-white-50 mb-0" style="font-size: 0.95rem;">
-                <i class="fas fa-code me-2"></i>
-                &copy; <?php echo date('Y'); ?> Eagle Software — Todos los derechos reservados
+                Doctora Eddi &copy; <?php echo date('Y'); ?> - Made by <a href="https://www.agenciaeaglesoftware.com/" target="_blank" rel="noopener noreferrer" class="eagle-software-link">Eagle Software</a> - Todos los derechos reservados
             </p>
         </div>
 
