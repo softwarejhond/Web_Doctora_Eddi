@@ -9,6 +9,7 @@ session_start();
 header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/conexion.php';
+require_once __DIR__ . '/mailer.php';
 
 // Verificar sesión activa
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -18,6 +19,26 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 }
 
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+
+// ── Verificar solapamiento de citas ──
+function hasOverlap($conn, $date_start, $date_end, $excludeId = 0) {
+    $sql = "SELECT COUNT(*) AS total FROM appointments
+            WHERE status NOT IN ('cancelada','no_presentado')
+              AND date_start < ? AND date_end > ?";
+    if ($excludeId > 0) {
+        $sql .= " AND id != ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'ssi', $date_end, $date_start, $excludeId);
+    } else {
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'ss', $date_end, $date_start);
+    }
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    mysqli_stmt_close($stmt);
+    return (int)$row['total'] > 0;
+}
 
 // ── Listar tratamientos (para el formulario) ──
 if ($action === 'treatments') {
@@ -129,6 +150,12 @@ if ($action === 'create') {
     $endDt->modify("+{$duration} minutes");
     $date_end = $endDt->format('Y-m-d H:i:s');
 
+    // Verificar solapamiento
+    if (hasOverlap($conn, $date_start, $date_end)) {
+        echo json_encode(['success' => false, 'message' => 'Ya existe una cita programada en ese horario. Por favor seleccione otra fecha u hora.']);
+        exit;
+    }
+
     $created_by = (int)$_SESSION['user_id'];
 
     $stmt = mysqli_prepare($conn,
@@ -143,7 +170,39 @@ if ($action === 'create') {
 
     if (mysqli_stmt_execute($stmt)) {
         $newId = mysqli_insert_id($conn);
-        echo json_encode(['success' => true, 'message' => 'Cita creada exitosamente.', 'id' => $newId]);
+
+        // Enviar notificación por correo si hay email
+        $emailSent = false;
+        if (!empty($patient_email)) {
+            // Obtener nombre del tratamiento y categoría
+            $tStmt = mysqli_prepare($conn, "SELECT t.name AS treatment_name, tc.name AS category_name FROM treatments t JOIN treatment_categories tc ON tc.id = t.category_id WHERE t.id = ? LIMIT 1");
+            mysqli_stmt_bind_param($tStmt, 'i', $treatment_id);
+            mysqli_stmt_execute($tStmt);
+            $tResult = mysqli_stmt_get_result($tStmt);
+            $tData = mysqli_fetch_assoc($tResult);
+            mysqli_stmt_close($tStmt);
+
+            if ($tData) {
+                $emailSent = sendAppointmentEmail($conn, [
+                    'patient_name'   => $patient_name,
+                    'patient_email'  => $patient_email,
+                    'patient_phone'  => $patient_phone,
+                    'treatment_name' => $tData['treatment_name'],
+                    'category_name'  => $tData['category_name'],
+                    'date_start'     => $date_start,
+                    'date_end'       => $date_end,
+                    'duration'       => $duration,
+                    'notes'          => $notes
+                ]);
+            }
+        }
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Cita creada exitosamente.' . ($emailSent ? ' Se envió notificación al correo.' : ''),
+            'id'      => $newId,
+            'email_sent' => $emailSent
+        ]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Error al crear la cita.']);
     }
@@ -175,6 +234,12 @@ if ($action === 'update') {
     $endDt   = clone $startDt;
     $endDt->modify("+{$duration} minutes");
     $date_end = $endDt->format('Y-m-d H:i:s');
+
+    // Verificar solapamiento (excluye la cita actual)
+    if (hasOverlap($conn, $date_start, $date_end, $id)) {
+        echo json_encode(['success' => false, 'message' => 'Ya existe una cita programada en ese horario. Por favor seleccione otra fecha u hora.']);
+        exit;
+    }
 
     $stmt = mysqli_prepare($conn,
         "UPDATE appointments SET patient_name=?, patient_phone=?, patient_email=?,
@@ -212,6 +277,12 @@ if ($action === 'reschedule') {
     $e = new DateTime($date_end);
     $diff = $s->diff($e);
     $duration = ($diff->h * 60) + $diff->i;
+
+    // Verificar solapamiento (excluye la cita actual)
+    if (hasOverlap($conn, $date_start, $date_end, $id)) {
+        echo json_encode(['success' => false, 'message' => 'Ya existe una cita programada en ese horario. Por favor seleccione otra fecha u hora.']);
+        exit;
+    }
 
     $stmt = mysqli_prepare($conn,
         "UPDATE appointments SET date_start=?, date_end=?, duration=? WHERE id=?"

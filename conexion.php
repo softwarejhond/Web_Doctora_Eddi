@@ -20,4 +20,4 @@ mysqli_query($conn, "SET CHARACTER SET 'utf8mb4'");
 mysqli_query($conn, "SET COLLATION_CONNECTION = 'utf8mb4_general_ci'");     
 
 // Set the time zone to Bogotá, Colombia (UTC-5)
-mysqli_query($conn, "SET time_zone = '-05:00'");
+//mysqli_query($conn, "SET time_zone = '-05:00'");

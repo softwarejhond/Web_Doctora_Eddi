@@ -139,9 +139,35 @@ if ($action === 'create_user') {
     // Hashear contraseña
     $hashed = password_hash($password, PASSWORD_DEFAULT);
 
+    // Manejo de foto de perfil
+    $pictureName = 'default.png';
+    if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $allowedExts  = ['jpg', 'jpeg', 'png', 'gif'];
+        $fileType = mime_content_type($_FILES['picture']['tmp_name']);
+        $ext = strtolower(pathinfo($_FILES['picture']['name'], PATHINFO_EXTENSION));
+
+        if (!in_array($fileType, $allowedTypes) || !in_array($ext, $allowedExts)) {
+            echo json_encode(['success' => false, 'message' => 'Formato de imagen no permitido. Solo JPG, PNG y GIF.']);
+            exit;
+        }
+        if ($_FILES['picture']['size'] > 5 * 1024 * 1024) {
+            echo json_encode(['success' => false, 'message' => 'La imagen no debe superar los 5 MB.']);
+            exit;
+        }
+
+        $pictureName = $username . '_' . date('Ymd_His') . '.' . $ext;
+        $destPath = __DIR__ . '/../img/profiles/' . $pictureName;
+
+        if (!move_uploaded_file($_FILES['picture']['tmp_name'], $destPath)) {
+            echo json_encode(['success' => false, 'message' => 'Error al subir la imagen.']);
+            exit;
+        }
+    }
+
     // Insertar usuario
-    $stmt = mysqli_prepare($conn, "INSERT INTO users (username, full_name, email, password, rol, active) VALUES (?, ?, ?, ?, ?, 1)");
-    mysqli_stmt_bind_param($stmt, 'ssssi', $username, $full_name, $email, $hashed, $rol);
+    $stmt = mysqli_prepare($conn, "INSERT INTO users (username, full_name, email, password, picture, rol, active) VALUES (?, ?, ?, ?, ?, ?, 1)");
+    mysqli_stmt_bind_param($stmt, 'sssssi', $username, $full_name, $email, $hashed, $pictureName, $rol);
 
     if (mysqli_stmt_execute($stmt)) {
         $response = ['success' => true, 'message' => 'Usuario creado exitosamente.'];

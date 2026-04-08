@@ -175,6 +175,49 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             padding: 2px 4px;
             cursor: pointer;
             border: none;
+            position: relative;
+        }
+
+        /* Tooltip hover en eventos */
+        .fc-event-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d332e;
+            color: #ffffff;
+            font-size: .78rem;
+            font-weight: 500;
+            line-height: 1.35;
+            padding: .45rem .7rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 9999;
+            pointer-events: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,.22);
+        }
+
+        .fc-event-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #2d332e;
+        }
+
+        .fc-event:hover .fc-event-tooltip {
+            display: block;
+        }
+
+        /* Permitir que el tooltip sobresalga de las celdas */
+        .fc .fc-daygrid-day-frame,
+        .fc .fc-daygrid-day-events,
+        .fc .fc-daygrid-event-harness,
+        .fc .fc-timegrid-event-harness {
+            overflow: visible !important;
         }
 
         .fc .fc-col-header-cell-cushion {
@@ -275,6 +318,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
         </div>
     </main>
 
+    <?php include __DIR__ . '/../components/dash/footer.php'; ?>
+
     <!-- Bootstrap JS (local) -->
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert2 (local) -->
@@ -319,6 +364,28 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     if (data.success) treatments = data.data;
                     if (cb) cb();
                 });
+        }
+
+        // ── Fecha mínima para el input date ──
+        function getMinDate() {
+            var now = new Date();
+            return now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-'
+                 + String(now.getDate()).padStart(2,'0');
+        }
+
+        // ── Generar opciones de hora en intervalos de 5 min (07:00 — 17:55) ──
+        function timeOptionsHTML(selected) {
+            var html = '<option value="">— Seleccionar —</option>';
+            for (var h = 7; h < 18; h++) {
+                for (var m = 0; m < 60; m += 5) {
+                    var val = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+                    var label = (h > 12 ? h - 12 : h) + ':' + String(m).padStart(2,'0') + (h >= 12 ? ' PM' : ' AM');
+                    if (h === 0) label = '12:' + String(m).padStart(2,'0') + ' AM';
+                    var sel = (val === selected) ? ' selected' : '';
+                    html += '<option value="' + val + '"' + sel + '>' + label + '</option>';
+                }
+            }
+            return html;
         }
 
         // ── Generar <select> agrupado por categoría ──
@@ -367,9 +434,14 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                 + '</div>'
                 + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">'
                 + '  <div class="swal-input-group">'
-                + '    <label for="swal-datetime">Fecha y Hora *</label>'
-                + '    <input type="datetime-local" id="swal-datetime" value="' + (d.date_start || '') + '">'
+                + '    <label for="swal-date">Fecha *</label>'
+                + '    <input type="date" id="swal-date" value="' + (d.date_start ? d.date_start.substring(0,10) : '') + '" min="' + getMinDate() + '">'
                 + '  </div>'
+                + '  <div class="swal-input-group">'
+                + '    <label for="swal-time">Hora *</label>'
+                + '    <select id="swal-time">' + timeOptionsHTML(d.date_start ? d.date_start.substring(11,16) : '') + '</select>'
+                + '  </div>'
+                + '</div>'
                 + '  <div class="swal-input-group">'
                 + '    <label for="swal-duration">Duración (min)</label>'
                 + '    <select id="swal-duration">'
@@ -395,20 +467,30 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             var phone     = document.getElementById('swal-phone').value.trim();
             var email     = document.getElementById('swal-email').value.trim();
             var treatment = document.getElementById('swal-treatment').value;
-            var datetime  = document.getElementById('swal-datetime').value;
+            var dateVal   = document.getElementById('swal-date').value;
+            var timeVal   = document.getElementById('swal-time').value;
             var duration  = document.getElementById('swal-duration').value;
             var notes     = document.getElementById('swal-notes').value.trim();
 
             if (!patient) { Swal.showValidationMessage('El nombre del paciente es obligatorio.'); return false; }
             if (!treatment) { Swal.showValidationMessage('Seleccione un tratamiento.'); return false; }
-            if (!datetime) { Swal.showValidationMessage('Seleccione fecha y hora.'); return false; }
+            if (!dateVal) { Swal.showValidationMessage('Seleccione una fecha.'); return false; }
+            if (!timeVal) { Swal.showValidationMessage('Seleccione una hora.'); return false; }
+
+            // Validar que no sea domingo
+            var selectedDate = new Date(dateVal + 'T' + timeVal);
+            if (selectedDate.getDay() === 0) { Swal.showValidationMessage('No se pueden agendar citas los domingos.'); return false; }
+
+            // Validar rango horario 7:00 — 18:00
+            var hours = selectedDate.getHours();
+            if (hours < 7 || hours >= 18) { Swal.showValidationMessage('El horario de atención es de 7:00 AM a 6:00 PM.'); return false; }
 
             return {
                 patient_name:  patient,
                 patient_phone: phone,
                 patient_email: email,
                 treatment_id:  treatment,
-                date_start:    datetime.replace('T', ' ') + ':00',
+                date_start:    dateVal + ' ' + timeVal + ':00',
                 duration:      duration,
                 notes:         notes
             };
@@ -429,11 +511,22 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
         // ── CREAR CITA ──
         function openCreateDialog(startDate) {
             var defaultDate = startDate || '';
-            if (defaultDate && defaultDate.length === 10) defaultDate += 'T09:00';
+            var defaultTime = '07:00';
+            if (defaultDate && defaultDate.includes('T')) {
+                var parts = defaultDate.split('T');
+                defaultDate = parts[0];
+                defaultTime = parts[1].substring(0, 5);
+                // Redondear a intervalo de 5 min
+                var mins = parseInt(defaultTime.split(':')[1]);
+                mins = Math.round(mins / 5) * 5;
+                if (mins >= 60) { mins = 55; }
+                defaultTime = defaultTime.split(':')[0] + ':' + String(mins).padStart(2, '0');
+            }
+            var formDate = defaultDate ? defaultDate + 'T' + defaultTime : '';
 
             Swal.fire({
                 title: '<i class="fas fa-calendar-plus" style="color:#5a6b5c;margin-right:.5rem;"></i>Nueva Cita',
-                html: appointmentFormHTML({ date_start: defaultDate }),
+                html: appointmentFormHTML({ date_start: formDate }),
                 customClass: { popup: 'swal-custom' },
                 showCancelButton: true,
                 confirmButtonText: '<i class="fas fa-check me-1"></i>Agendar',
@@ -447,6 +540,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     var formData = collectFormData();
                     if (!formData) return false;
 
+                    Swal.showLoading();
+
                     var fd = new FormData();
                     fd.append('action', 'create');
                     for (var k in formData) fd.append(k, formData[k]);
@@ -454,10 +549,10 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     return fetch(API, { method: 'POST', body: fd })
                         .then(function(r) { return r.json(); })
                         .then(function(data) {
-                            if (!data.success) { Swal.showValidationMessage(data.message); return false; }
+                            if (!data.success) { Swal.hideLoading(); Swal.showValidationMessage(data.message); return false; }
                             return data;
                         })
-                        .catch(function() { Swal.showValidationMessage('Error de conexión.'); });
+                        .catch(function() { Swal.hideLoading(); Swal.showValidationMessage('Error de conexión.'); });
                 }
             }).then(function(result) {
                 if (result.isConfirmed && result.value) {
@@ -555,6 +650,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     var formData = collectFormData();
                     if (!formData) return false;
 
+                    Swal.showLoading();
+
                     var fd = new FormData();
                     fd.append('action', 'update');
                     fd.append('id', ev.id);
@@ -563,10 +660,10 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     return fetch(API, { method: 'POST', body: fd })
                         .then(function(r) { return r.json(); })
                         .then(function(data) {
-                            if (!data.success) { Swal.showValidationMessage(data.message); return false; }
+                            if (!data.success) { Swal.hideLoading(); Swal.showValidationMessage(data.message); return false; }
                             return data;
                         })
-                        .catch(function() { Swal.showValidationMessage('Error de conexión.'); });
+                        .catch(function() { Swal.hideLoading(); Swal.showValidationMessage('Error de conexión.'); });
                 },
                 preDeny: function() {
                     return Swal.fire({
@@ -648,13 +745,15 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     fd.append('status', status);
                     if (status === 'cancelada' && reason) fd.append('cancel_reason', reason);
 
+                    Swal.showLoading();
+
                     return fetch(API, { method: 'POST', body: fd })
                         .then(function(r) { return r.json(); })
                         .then(function(data) {
-                            if (!data.success) { Swal.showValidationMessage(data.message); return false; }
+                            if (!data.success) { Swal.hideLoading(); Swal.showValidationMessage(data.message); return false; }
                             return data;
                         })
-                        .catch(function() { Swal.showValidationMessage('Error de conexión.'); });
+                        .catch(function() { Swal.hideLoading(); Swal.showValidationMessage('Error de conexión.'); });
                 }
             }).then(function(result) {
                 if (result.isConfirmed && result.value) {
@@ -686,8 +785,17 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                 allDayText: 'Todo el día',
                 noEventsText: 'No hay citas para mostrar',
                 slotMinTime: '07:00:00',
-                slotMaxTime: '21:00:00',
-                slotDuration: '00:30:00',
+                slotMaxTime: '18:00:00',
+                slotDuration: '00:05:00',
+                slotLabelInterval: '00:30:00',
+                hiddenDays: [0],
+                businessHours: {
+                    daysOfWeek: [1, 2, 3, 4, 5, 6],
+                    startTime: '07:00',
+                    endTime: '18:00'
+                },
+                selectConstraint: 'businessHours',
+                eventConstraint: 'businessHours',
                 navLinks: true,
                 selectable: true,
                 selectMirror: true,
@@ -707,13 +815,15 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                         .catch(function(err) { failureCallback(err); });
                 },
 
-                // Click en día vacío → crear cita
+                // Click en día vacío → crear cita (excepto domingos)
                 dateClick: function(info) {
+                    if (info.date.getDay() === 0) return;
                     openCreateDialog(info.dateStr);
                 },
 
-                // Selección de rango → crear cita con hora
+                // Selección de rango → crear cita con hora (excepto domingos)
                 select: function(info) {
+                    if (info.start.getDay() === 0) return;
                     var start = info.startStr;
                     if (start.includes('T')) {
                         start = start.substring(0, 16);
@@ -725,6 +835,22 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                 eventClick: function(info) {
                     info.jsEvent.preventDefault();
                     openEventDetail(info);
+                },
+
+                // Tooltip hover mostrando info completa
+                eventDidMount: function(info) {
+                    var p = info.event.extendedProps;
+                    var start = new Date(info.event.start);
+                    var hh = String(start.getHours()).padStart(2,'0');
+                    var mm = String(start.getMinutes()).padStart(2,'0');
+                    var label = statusLabels[p.status] || p.status;
+                    var text = hh + ':' + mm + '  ' + p.patient_name + ' — ' + p.treatment + '  [' + label + ']';
+
+                    var tip = document.createElement('span');
+                    tip.className = 'fc-event-tooltip';
+                    tip.textContent = text;
+                    info.el.style.overflow = 'visible';
+                    info.el.appendChild(tip);
                 },
 
                 // Drag & drop → reprogramar

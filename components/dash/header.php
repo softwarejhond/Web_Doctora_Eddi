@@ -16,7 +16,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
         </button>
 
         <!-- Logo -->
-        <a href="index.php">
+        <a href="index">
             <img src="../img/logos/logo_eddi_oscuro.png" alt="Doctora Eddi" class="dash-logo"
                  onerror="this.src='../img/logos/logo_eddi_crema.png'">
         </a>
@@ -24,11 +24,11 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
         <!-- Navegación -->
         <nav>
             <ul class="dash-nav">
-                <li><a href="index.php" class="dash-nav-link <?php echo $currentPage === 'index' ? 'active' : ''; ?>"><i class="fas fa-home me-1"></i> Inicio</a></li>
+                <li><a href="index" class="dash-nav-link <?php echo $currentPage === 'index' ? 'active' : ''; ?>"><i class="fas fa-home me-1"></i> Inicio</a></li>
                 <?php if ($rol === 1): ?>
-                <li><a href="#" class="dash-nav-link"><i class="fas fa-users me-1"></i> Usuarios</a></li>
+                <li><a href="usuarios" class="dash-nav-link <?php echo $currentPage === 'usuarios' ? 'active' : ''; ?>"><i class="fas fa-users me-1"></i> Usuarios</a></li>
                 <?php endif; ?>
-                <li><a href="citas.php" class="dash-nav-link <?php echo $currentPage === 'citas' ? 'active' : ''; ?>"><i class="fas fa-calendar-alt me-1"></i> Citas</a></li>
+                <li><a href="citas" class="dash-nav-link <?php echo $currentPage === 'citas' ? 'active' : ''; ?>"><i class="fas fa-calendar-alt me-1"></i> Citas</a></li>
                 <li><a href="#" class="dash-nav-link"><i class="fas fa-file-medical me-1"></i> Historial</a></li>
             </ul>
         </nav>
@@ -56,7 +56,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
                     </div>
                 </li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Mi Perfil</a></li>
+                <li><a class="dropdown-item" href="perfil"><i class="fas fa-user"></i> Mi Perfil</a></li>
                 <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Configuración</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-danger" href="../controller/logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
