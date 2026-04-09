@@ -1,10 +1,9 @@
 RewriteEngine On
-RewriteBase /
 
 # Redirect requests with .php extension to clean URL (except controllers)
-RewriteCond %{THE_REQUEST} \s/([^?]*?)\.php[\s?] [NC]
-RewriteCond %{REQUEST_URI} !^/controller/ [NC]
-RewriteRule ^(.*)\.php$ /$1 [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+([^?]*?)\.php[\s?] [NC]
+RewriteCond %{REQUEST_URI} !controller/
+RewriteRule ^(.*)\.php$ $1 [R=301,L,NE]
 
 # Internally rewrite clean URLs to .php files
 RewriteCond %{REQUEST_FILENAME} !-d

@@ -413,7 +413,14 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
         // ── Formulario HTML para crear/editar ──
         function appointmentFormHTML(data) {
             var d = data || {};
+            var isEdit = !!d._editMode;
+            var numbDisabled = isEdit ? ' disabled' : '';
             return '<div style="padding:0 .5rem; text-align:left;">'
+                + '<div class="swal-input-group">'
+                + '  <label for="swal-number-id">Cédula *</label>'
+                + '  <input type="text" id="swal-number-id" inputmode="numeric" pattern="[0-9]*" value="' + (d.number_id || '') + '" placeholder="Solo números" maxlength="20"' + numbDisabled + '>'
+                + (isEdit ? '<div style="margin-top:.35rem;"><label style="font-size:.8rem;color:#6b726d;cursor:pointer;"><input type="checkbox" id="swal-number-id-check" style="margin-right:.35rem;">Habilitar edición de cédula</label></div>' : '')
+                + '</div>'
                 + '<div class="swal-input-group">'
                 + '  <label for="swal-patient">Nombre del Paciente *</label>'
                 + '  <input type="text" id="swal-patient" value="' + (d.patient_name || '') + '" placeholder="Nombre completo" maxlength="200">'
@@ -463,6 +470,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
 
         // ── Validar y recoger datos del form ──
         function collectFormData() {
+            var numberId  = document.getElementById('swal-number-id').value.trim();
             var patient   = document.getElementById('swal-patient').value.trim();
             var phone     = document.getElementById('swal-phone').value.trim();
             var email     = document.getElementById('swal-email').value.trim();
@@ -472,6 +480,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             var duration  = document.getElementById('swal-duration').value;
             var notes     = document.getElementById('swal-notes').value.trim();
 
+            if (!numberId) { Swal.showValidationMessage('La cédula es obligatoria.'); return false; }
+            if (!/^\d+$/.test(numberId)) { Swal.showValidationMessage('La cédula solo debe contener números.'); return false; }
             if (!patient) { Swal.showValidationMessage('El nombre del paciente es obligatorio.'); return false; }
             if (!treatment) { Swal.showValidationMessage('Seleccione un tratamiento.'); return false; }
             if (!dateVal) { Swal.showValidationMessage('Seleccione una fecha.'); return false; }
@@ -486,6 +496,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             if (hours < 7 || hours >= 18) { Swal.showValidationMessage('El horario de atención es de 7:00 AM a 6:00 PM.'); return false; }
 
             return {
+                number_id:     numberId,
                 patient_name:  patient,
                 patient_phone: phone,
                 patient_email: email,
@@ -504,6 +515,20 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     var opt = sel.options[sel.selectedIndex];
                     var dur = opt.getAttribute('data-duration');
                     if (dur) document.getElementById('swal-duration').value = dur;
+                });
+            }
+            // Checkbox para habilitar edición de cédula
+            var chk = document.getElementById('swal-number-id-check');
+            if (chk) {
+                chk.addEventListener('change', function() {
+                    document.getElementById('swal-number-id').disabled = !this.checked;
+                });
+            }
+            // Bloquear caracteres no numéricos en cédula
+            var nid = document.getElementById('swal-number-id');
+            if (nid) {
+                nid.addEventListener('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
                 });
             }
         }
@@ -582,6 +607,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
 
             var detailHTML = ''
                 + '<div style="text-align:left;padding:0 .5rem;">'
+                + '<div class="appt-detail-row"><i class="fas fa-id-card"></i><div><strong>Cédula:</strong> ' + (p.number_id || 'N/A') + '</div></div>'
                 + '<div class="appt-detail-row"><i class="fas fa-user"></i><div><strong>' + p.patient_name + '</strong></div></div>'
                 + (p.patient_phone ? '<div class="appt-detail-row"><i class="fas fa-phone"></i><div>' + p.patient_phone + '</div></div>' : '')
                 + (p.patient_email ? '<div class="appt-detail-row"><i class="fas fa-envelope"></i><div>' + p.patient_email + '</div></div>' : '')
@@ -627,6 +653,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             Swal.fire({
                 title: '<i class="fas fa-edit" style="color:#5a6b5c;margin-right:.5rem;"></i>Editar Cita',
                 html: appointmentFormHTML({
+                    _editMode:     true,
+                    number_id:     p.number_id,
                     patient_name:  p.patient_name,
                     patient_phone: p.patient_phone,
                     patient_email: p.patient_email,

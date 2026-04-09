@@ -11,6 +11,14 @@
 </footer>
 
 <style>
+@font-face {
+    font-family: 'Sparose';
+    src: url('../css/fonts/fonnts.com-Sparose.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 .dash-footer {
     position: fixed;
     bottom: 0;
@@ -34,6 +42,7 @@
     color: #5a6b5c;
     text-decoration: none;
     font-weight: 500;
+    font-family: 'Sparose', sans-serif;
     transition: color .2s;
 }
 

@@ -119,9 +119,12 @@ if ($rol !== 1) {
         .dataTables_wrapper .dataTables_length select {
             border: 1px solid #e8e4df;
             border-radius: 2px;
-            padding: .3rem .5rem;
+            padding: .3rem 1.75rem .3rem .5rem;
             font-size: .85rem;
             color: #2d332e;
+            appearance: auto;
+            -webkit-appearance: auto;
+            -moz-appearance: auto;
         }
 
         table.dataTable thead th {
@@ -261,7 +264,7 @@ if ($rol !== 1) {
 
     <!-- ===== CONTENIDO PRINCIPAL ===== -->
     <main class="dash-main">
-        <div class="container">
+        <div class="container-fluid px-3 px-md-4">
             <div class="usuarios-container">
                 <div class="usuarios-header">
                     <h2 class="usuarios-title"><i class="fas fa-users-cog me-2" style="color:#8a9a8b;"></i>Gestión de <em>Usuarios</em></h2>

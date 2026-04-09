@@ -56,13 +56,33 @@ if ($action === 'treatments') {
     exit;
 }
 
+// ── Listar historial de citas (para DataTables) ──
+if ($action === 'history_list') {
+    $sql = "SELECT a.id, a.number_id, a.patient_name, a.patient_phone, a.patient_email,
+                   a.treatment_id, t.name AS treatment_name, tc.name AS category_name,
+                   a.duration, a.date_start, a.date_end, a.status,
+                   a.cancel_reason, a.notes, a.created_by,
+                   a.creation_date, a.update_date
+            FROM appointments a
+            JOIN treatments t ON t.id = a.treatment_id
+            JOIN treatment_categories tc ON tc.id = t.category_id
+            ORDER BY a.date_start DESC";
+    $result = mysqli_query($conn, $sql);
+    $data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data[] = $row;
+    }
+    echo json_encode(['success' => true, 'data' => $data]);
+    exit;
+}
+
 // ── Listar citas (para FullCalendar) ──
 if ($action === 'list') {
     $start = isset($_GET['start']) ? $_GET['start'] : date('Y-m-01');
     $end   = isset($_GET['end'])   ? $_GET['end']   : date('Y-m-t');
 
     $stmt = mysqli_prepare($conn,
-        "SELECT a.id, a.patient_name, a.patient_phone, a.patient_email,
+        "SELECT a.id, a.number_id, a.patient_name, a.patient_phone, a.patient_email,
                 a.treatment_id, t.name AS treatment_name, tc.name AS category_name,
                 a.duration, a.date_start, a.date_end, a.status,
                 a.cancel_reason, a.notes, a.created_by
@@ -93,6 +113,7 @@ if ($action === 'list') {
             'end'   => $row['date_end'],
             'color' => isset($statusColors[$row['status']]) ? $statusColors[$row['status']] : '#5a6b5c',
             'extendedProps' => [
+                'number_id'     => $row['number_id'],
                 'patient_name'  => $row['patient_name'],
                 'patient_phone' => $row['patient_phone'],
                 'patient_email' => $row['patient_email'],
@@ -121,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // ── Crear cita ──
 if ($action === 'create') {
+    $number_id     = isset($_POST['number_id'])     ? trim($_POST['number_id'])     : '';
     $patient_name  = isset($_POST['patient_name'])  ? trim($_POST['patient_name'])  : '';
     $patient_phone = isset($_POST['patient_phone']) ? trim($_POST['patient_phone']) : '';
     $patient_email = isset($_POST['patient_email']) ? trim($_POST['patient_email']) : '';
@@ -130,8 +152,13 @@ if ($action === 'create') {
     $notes         = isset($_POST['notes'])         ? trim($_POST['notes'])         : '';
 
     // Validaciones
-    if (empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
-        echo json_encode(['success' => false, 'message' => 'Nombre del paciente, tratamiento y fecha son obligatorios.']);
+    if (empty($number_id) || empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
+        echo json_encode(['success' => false, 'message' => 'Cédula, nombre del paciente, tratamiento y fecha son obligatorios.']);
+        exit;
+    }
+
+    if (!ctype_digit($number_id)) {
+        echo json_encode(['success' => false, 'message' => 'La cédula solo debe contener números.']);
         exit;
     }
 
@@ -159,11 +186,11 @@ if ($action === 'create') {
     $created_by = (int)$_SESSION['user_id'];
 
     $stmt = mysqli_prepare($conn,
-        "INSERT INTO appointments (patient_name, patient_phone, patient_email, treatment_id, duration, date_start, date_end, status, notes, created_by)
-         VALUES (?, ?, ?, ?, ?, ?, ?, 'agendada', ?, ?)"
+        "INSERT INTO appointments (number_id, patient_name, patient_phone, patient_email, treatment_id, duration, date_start, date_end, status, notes, created_by)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'agendada', ?, ?)"
     );
-    mysqli_stmt_bind_param($stmt, 'sssiisssi',
-        $patient_name, $patient_phone, $patient_email,
+    mysqli_stmt_bind_param($stmt, 'ssssiisssi',
+        $number_id, $patient_name, $patient_phone, $patient_email,
         $treatment_id, $duration, $date_start, $date_end,
         $notes, $created_by
     );
@@ -213,6 +240,7 @@ if ($action === 'create') {
 // ── Actualizar cita (edición completa o drag & drop) ──
 if ($action === 'update') {
     $id            = isset($_POST['id'])            ? (int)$_POST['id']            : 0;
+    $number_id     = isset($_POST['number_id'])     ? trim($_POST['number_id'])     : '';
     $patient_name  = isset($_POST['patient_name'])  ? trim($_POST['patient_name'])  : '';
     $patient_phone = isset($_POST['patient_phone']) ? trim($_POST['patient_phone']) : '';
     $patient_email = isset($_POST['patient_email']) ? trim($_POST['patient_email']) : '';
@@ -221,8 +249,13 @@ if ($action === 'update') {
     $date_start    = isset($_POST['date_start'])    ? trim($_POST['date_start'])    : '';
     $notes         = isset($_POST['notes'])         ? trim($_POST['notes'])         : '';
 
-    if ($id <= 0 || empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
+    if ($id <= 0 || empty($number_id) || empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
         echo json_encode(['success' => false, 'message' => 'Datos incompletos para actualizar.']);
+        exit;
+    }
+
+    if (!ctype_digit($number_id)) {
+        echo json_encode(['success' => false, 'message' => 'La cédula solo debe contener números.']);
         exit;
     }
 
@@ -242,12 +275,12 @@ if ($action === 'update') {
     }
 
     $stmt = mysqli_prepare($conn,
-        "UPDATE appointments SET patient_name=?, patient_phone=?, patient_email=?,
+        "UPDATE appointments SET number_id=?, patient_name=?, patient_phone=?, patient_email=?,
                 treatment_id=?, duration=?, date_start=?, date_end=?, notes=?
          WHERE id=?"
     );
-    mysqli_stmt_bind_param($stmt, 'sssiisssi',
-        $patient_name, $patient_phone, $patient_email,
+    mysqli_stmt_bind_param($stmt, 'ssssiisssi',
+        $number_id, $patient_name, $patient_phone, $patient_email,
         $treatment_id, $duration, $date_start, $date_end,
         $notes, $id
     );

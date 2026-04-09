@@ -23,7 +23,7 @@ $currentPage = isset($currentPage) ? $currentPage : basename($_SERVER['PHP_SELF'
             <a href="citas" class="dash-sidebar-item <?php echo $currentPage === 'citas' ? 'active' : ''; ?>">
                 <i class="fas fa-calendar-alt"></i> Citas
             </a>
-            <a href="#" class="dash-sidebar-item">
+            <a href="historial" class="dash-sidebar-item <?php echo $currentPage === 'historial' ? 'active' : ''; ?>">
                 <i class="fas fa-file-medical"></i> Historial
             </a>
         </div>
