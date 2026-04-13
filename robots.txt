@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /controller/
+Disallow: /database/
+Disallow: /dashboard/
+Disallow: /vendor/
+Disallow: /conexion.php
+
+Sitemap: https://www.doctoraeddi.com/sitemap.xml
