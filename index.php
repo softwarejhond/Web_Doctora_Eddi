@@ -3,7 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctora Eddi — Medicina Integrativa y Regenerativa</title>
+    <title>Doctora Eddi — Medicina Estética, Integrativa y Regenerativa en Medellín</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Doctora Eddi: medicina estética e integrativa en Medellín. Tratamientos faciales, corporales, bioestimulación capilar, terapias con péptidos y protocolos personalizados. Agenda tu valoración integral.">
+    <meta name="keywords" content="medicina estética Medellín, medicina integrativa, toxina botulínica, bioestimuladores de colágeno, bioestimulación capilar, tratamiento melasma, péptidos, pérdida de peso, Doctora Eddi, El Poblado">
+    <meta name="author" content="Doctora Eddi">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.doctoraeddi.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.doctoraeddi.com/">
+    <meta property="og:title" content="Doctora Eddi — Medicina Estética, Integrativa y Regenerativa en Medellín">
+    <meta property="og:description" content="Medicina estética con enfoque integrativo: tratamos la causa, no solo el síntoma. Valoración integral, protocolos personalizados y resultados naturales.">
+    <meta property="og:image" content="https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png">
+    <meta property="og:locale" content="es_CO">
+    <meta property="og:site_name" content="Doctora Eddi">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Doctora Eddi — Medicina Estética, Integrativa y Regenerativa en Medellín">
+    <meta name="twitter:description" content="Medicina estética con enfoque integrativo: tratamos la causa, no solo el síntoma. Agenda tu valoración integral.">
+    <meta name="twitter:image" content="https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png">
+
+    <!-- Geo Tags (SEO Local) -->
+    <meta name="geo.region" content="CO-ANT">
+    <meta name="geo.placename" content="Medellín">
+    <meta name="geo.position" content="6.2088;-75.5742">
+    <meta name="ICBM" content="6.2088, -75.5742">
     
     <!-- Bootstrap CSS (local) -->
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,6 +54,115 @@
     <link rel="icon" type="image/png" href="img/logos/icono_eddi_claro.png">
     <link rel="shortcut icon" type="image/png" href="img/logos/icono_eddi_claro.png">
     <link rel="apple-touch-icon" href="img/logos/icono_eddi_claro.png">
+
+    <!-- Schema.org JSON-LD (Datos Estructurados) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "MedicalBusiness",
+        "name": "Doctora Eddi — Medicina Estética e Integrativa",
+        "description": "Medicina estética con enfoque integrativo en Medellín. Tratamientos faciales, corporales, bioestimulación capilar, terapias con péptidos y protocolos personalizados.",
+        "url": "https://www.doctoraeddi.com",
+        "logo": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
+        "image": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
+        "telephone": "+573013537082",
+        "email": "doctora.eddi@gmail.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Carrera 43 A # 1 Sur - 50, Edificio Cross Business, Consultorio 1102",
+            "addressLocality": "Medellín",
+            "addressRegion": "Antioquia",
+            "addressCountry": "CO",
+            "postalCode": "050021"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 6.2088,
+            "longitude": -75.5742
+        },
+        "areaServed": {
+            "@type": "City",
+            "name": "Medellín"
+        },
+        "sameAs": [
+            "https://www.instagram.com/doctora.eddi"
+        ],
+        "medicalSpecialty": [
+            "Medicina Estética",
+            "Medicina Integrativa",
+            "Medicina Regenerativa"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Servicios Médicos",
+            "itemListElement": [
+                {
+                    "@type": "MedicalProcedure",
+                    "name": "Toxina Botulínica",
+                    "procedureType": "NoninvasiveProcedure"
+                },
+                {
+                    "@type": "MedicalProcedure",
+                    "name": "Bioestimuladores de Colágeno",
+                    "procedureType": "NoninvasiveProcedure"
+                },
+                {
+                    "@type": "MedicalProcedure",
+                    "name": "Bioestimulación Capilar",
+                    "procedureType": "NoninvasiveProcedure"
+                },
+                {
+                    "@type": "MedicalProcedure",
+                    "name": "Tratamiento para Melasma, Acné y Rosácea",
+                    "procedureType": "NoninvasiveProcedure"
+                },
+                {
+                    "@type": "MedicalProcedure",
+                    "name": "Terapias con Péptidos",
+                    "procedureType": "NoninvasiveProcedure"
+                },
+                {
+                    "@type": "MedicalProcedure",
+                    "name": "Reducción de Grasa Localizada",
+                    "procedureType": "NoninvasiveProcedure"
+                }
+            ]
+        }
+    }
+    </script>
+
+    <!-- Schema.org - Persona (Doctor) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Physician",
+        "name": "Doctora Eddi",
+        "description": "Médica general con formación en medicina estética y medicina integrativa",
+        "url": "https://www.doctoraeddi.com",
+        "medicalSpecialty": ["Medicina Estética", "Medicina Integrativa"],
+        "alumniOf": [
+            {
+                "@type": "CollegeOrUniversity",
+                "name": "Universidad Cooperativa de Colombia"
+            },
+            {
+                "@type": "CollegeOrUniversity",
+                "name": "Universidad del Tolima"
+            },
+            {
+                "@type": "CollegeOrUniversity",
+                "name": "Universidad Pontificia Bolivariana"
+            }
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Carrera 43 A # 1 Sur - 50, Edificio Cross Business, Consultorio 1102",
+            "addressLocality": "Medellín",
+            "addressRegion": "Antioquia",
+            "addressCountry": "CO"
+        }
+    }
+    </script>
 
     <style>
         /* ===== BASE ===== */

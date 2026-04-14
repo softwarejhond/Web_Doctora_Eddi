@@ -39,7 +39,7 @@
 
             <!-- Imagen -->
             <div class="col-lg-6 hero-img-box">
-                <img src="img/logos/logo_eddi_claro.png" alt="Medicina integrativa — Placeholder">
+                <img src="img/logos/logo_eddi_claro.png" alt="Doctora Eddi - Medicina estética e integrativa en Medellín">
             </div>
         </div>
     </div>
