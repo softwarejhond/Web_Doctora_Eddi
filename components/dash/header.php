@@ -57,7 +57,6 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
                 </li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="perfil"><i class="fas fa-user"></i> Mi Perfil</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Configuración</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-danger" href="../controller/logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>

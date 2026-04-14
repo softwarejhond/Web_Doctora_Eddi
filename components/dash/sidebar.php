@@ -45,9 +45,6 @@ $currentPage = isset($currentPage) ? $currentPage : basename($_SERVER['PHP_SELF'
             <a href="perfil" class="dash-sidebar-item <?php echo $currentPage === 'perfil' ? 'active' : ''; ?>">
                 <i class="fas fa-user"></i> Mi Perfil
             </a>
-            <a href="#" class="dash-sidebar-item">
-                <i class="fas fa-cog"></i> Configuración
-            </a>
             <a href="../controller/logout.php" class="dash-sidebar-item" style="color:#9c5b5b;">
                 <i class="fas fa-sign-out-alt" style="color:#9c5b5b;"></i> Cerrar Sesión
             </a>

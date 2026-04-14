@@ -24,21 +24,24 @@ CREATE TABLE IF NOT EXISTS `treatments` (
 
 -- Citas médicas
 CREATE TABLE IF NOT EXISTS `appointments` (
-    `id`             INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    `patient_name`   VARCHAR(200)    NOT NULL,
-    `patient_phone`  VARCHAR(20)     DEFAULT NULL,
-    `patient_email`  VARCHAR(150)    DEFAULT NULL,
-    `treatment_id`   INT UNSIGNED    NOT NULL,
-    `duration`       INT UNSIGNED    NOT NULL DEFAULT 60 COMMENT 'Duración en minutos',
-    `date_start`     DATETIME        NOT NULL COMMENT 'Fecha y hora de inicio',
-    `date_end`       DATETIME        NOT NULL COMMENT 'Fecha y hora de fin',
-    `status`         ENUM('agendada','confirmada','cancelada','completada','no_presentado')
-                     NOT NULL DEFAULT 'agendada',
-    `cancel_reason`  VARCHAR(500)    DEFAULT NULL COMMENT 'Motivo de cancelación',
-    `notes`          TEXT            DEFAULT NULL COMMENT 'Notas internas',
-    `created_by`     INT UNSIGNED    DEFAULT NULL COMMENT 'ID del usuario que creó la cita',
-    `creation_date`  TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_date`    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `id`               INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    `number_id`        VARCHAR(20)     DEFAULT NULL COMMENT 'Cédula del paciente',
+    `patient_name`     VARCHAR(200)    NOT NULL,
+    `patient_phone`    VARCHAR(20)     DEFAULT NULL,
+    `patient_email`    VARCHAR(150)    DEFAULT NULL,
+    `appointment_type` ENUM('valoracion','revision','tratamiento')
+                       NOT NULL DEFAULT 'tratamiento' COMMENT 'Tipo de cita',
+    `treatment_id`     INT UNSIGNED    DEFAULT NULL COMMENT 'NULL para valoración/revisión',
+    `duration`         INT UNSIGNED    NOT NULL DEFAULT 60 COMMENT 'Duración en minutos',
+    `date_start`       DATETIME        NOT NULL COMMENT 'Fecha y hora de inicio',
+    `date_end`         DATETIME        NOT NULL COMMENT 'Fecha y hora de fin',
+    `status`           ENUM('agendada','confirmada','cancelada','completada','no_presentado')
+                       NOT NULL DEFAULT 'agendada',
+    `cancel_reason`    VARCHAR(500)    DEFAULT NULL COMMENT 'Motivo de cancelación',
+    `notes`            TEXT            DEFAULT NULL COMMENT 'Notas internas',
+    `created_by`       INT UNSIGNED    DEFAULT NULL COMMENT 'ID del usuario que creó la cita',
+    `creation_date`    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_date`      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `idx_date_start` (`date_start`),
     KEY `idx_status`     (`status`),
@@ -53,34 +56,33 @@ CREATE TABLE IF NOT EXISTS `appointments` (
 -- =============================================
 
 INSERT INTO `treatment_categories` (`id`, `name`) VALUES
-(1, 'Facial'),
-(2, 'Capilar'),
-(3, 'Corporal'),
-(4, 'Medicina Regenerativa'),
-(5, 'Bienestar General');
+(1, 'Toxina Botulínica'),
+(2, 'Hiperhidrosis'),
+(3, 'Bioestimuladores'),
+(4, 'Mesoterapias Faciales'),
+(5, 'Mesoterapia Capilares'),
+(6, 'Skin Boosters'),
+(7, 'Regulación Metabólica'),
+(8, 'Enzimas Faciales'),
+(9, 'Enzimas Corporales');
 
 INSERT INTO `treatments` (`category_id`, `name`, `duration`) VALUES
--- Facial
-(1, 'Toxina Botulínica',           30),
-(1, 'Ácido Hialurónico',           45),
-(1, 'Peeling Químico',             60),
-(1, 'Microagujas / Microneedling', 60),
-(1, 'Limpieza Facial Profunda',    45),
-(1, 'Radiofrecuencia Facial',      60),
--- Capilar
-(2, 'Bioestimulación Capilar',     60),
-(2, 'Mesoterapia Capilar',         45),
-(2, 'PRP Capilar',                 60),
--- Corporal
-(3, 'Reducción de Grasa',          90),
-(3, 'Radiofrecuencia Corporal',    60),
-(3, 'Mesoterapia Corporal',        45),
-(3, 'Drenaje Linfático',           60),
--- Medicina Regenerativa
-(4, 'Plasma Rico en Plaquetas',    60),
-(4, 'Ozonoterapia',                45),
-(4, 'Terapia con Células Madre',   90),
--- Bienestar General
-(5, 'Sueroterapia / Vitaminas IV', 60),
-(5, 'Consulta General',            30),
-(5, 'Valoración Integral',         45);
+-- Toxina Botulínica
+(1, 'Toxina Botulínica Estética',                30),
+(1, 'Toxina Botulínica Médica para Bruxismo',    30),
+-- Hiperhidrosis
+(2, 'Hiperhidrosis Axilar',                      45),
+-- Bioestimuladores
+(3, 'Bioestimuladores de Colágeno',              60),
+-- Mesoterapias Faciales
+(4, 'Mesoterapias Faciales',                     45),
+-- Mesoterapia Capilares
+(5, 'Mesoterapia Capilares',                     45),
+-- Skin Boosters
+(6, 'Skin Boosters',                             45),
+-- Regulación Metabólica
+(7, 'Medicamentos para Regulación Metabólica',   30),
+-- Enzimas Faciales
+(8, 'Enzimas Faciales',                          45),
+-- Enzimas Corporales
+(9, 'Enzimas Corporales',                        60);

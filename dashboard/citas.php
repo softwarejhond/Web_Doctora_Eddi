@@ -410,11 +410,15 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             return html;
         }
 
+        // ── Labels de tipo de cita ──
+        var apptTypeLabels = { valoracion: 'Valoración', revision: 'Revisión', tratamiento: 'Tratamiento' };
+
         // ── Formulario HTML para crear/editar ──
         function appointmentFormHTML(data) {
             var d = data || {};
             var isEdit = !!d._editMode;
             var numbDisabled = isEdit ? ' disabled' : '';
+            var currentType = d.appointment_type || 'tratamiento';
             return '<div style="padding:0 .5rem; text-align:left;">'
                 + '<div class="swal-input-group">'
                 + '  <label for="swal-number-id">Cédula *</label>'
@@ -427,15 +431,23 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                 + '</div>'
                 + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">'
                 + '  <div class="swal-input-group">'
-                + '    <label for="swal-phone">Teléfono</label>'
+                + '    <label for="swal-phone">Teléfono *</label>'
                 + '    <input type="tel" id="swal-phone" value="' + (d.patient_phone || '') + '" placeholder="300 123 4567" maxlength="20">'
                 + '  </div>'
                 + '  <div class="swal-input-group">'
-                + '    <label for="swal-email">Email</label>'
+                + '    <label for="swal-email">Email *</label>'
                 + '    <input type="email" id="swal-email" value="' + (d.patient_email || '') + '" placeholder="correo@ejemplo.com">'
                 + '  </div>'
                 + '</div>'
                 + '<div class="swal-input-group">'
+                + '  <label for="swal-appt-type">Tipo de Cita *</label>'
+                + '  <select id="swal-appt-type" class="swal-select">'
+                + '    <option value="valoracion"' + (currentType === 'valoracion' ? ' selected' : '') + '>Valoración (40 min)</option>'
+                + '    <option value="revision"' + (currentType === 'revision' ? ' selected' : '') + '>Revisión (20 min)</option>'
+                + '    <option value="tratamiento"' + (currentType === 'tratamiento' ? ' selected' : '') + '>Tratamiento</option>'
+                + '  </select>'
+                + '</div>'
+                + '<div class="swal-input-group" id="treatment-group">'
                 + '  <label>Tratamiento *</label>'
                 + treatmentSelectHTML(d.treatment_id || '')
                 + '</div>'
@@ -453,7 +465,9 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                 + '    <label for="swal-duration">Duración (min)</label>'
                 + '    <select id="swal-duration">'
                 + '      <option value="15"'+ (d.duration==15?' selected':'') +'>15 min</option>'
+                + '      <option value="20"'+ (d.duration==20?' selected':'') +'>20 min</option>'
                 + '      <option value="30"'+ (d.duration==30?' selected':'') +'>30 min</option>'
+                + '      <option value="40"'+ (d.duration==40?' selected':'') +'>40 min</option>'
                 + '      <option value="45"'+ (d.duration==45?' selected':'') +'>45 min</option>'
                 + '      <option value="60"'+ ((d.duration==60||!d.duration)?' selected':'') +'>60 min</option>'
                 + '      <option value="90"'+ (d.duration==90?' selected':'') +'>90 min</option>'
@@ -470,6 +484,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
 
         // ── Validar y recoger datos del form ──
         function collectFormData() {
+            var apptType  = document.getElementById('swal-appt-type').value;
             var numberId  = document.getElementById('swal-number-id').value.trim();
             var patient   = document.getElementById('swal-patient').value.trim();
             var phone     = document.getElementById('swal-phone').value.trim();
@@ -483,7 +498,9 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             if (!numberId) { Swal.showValidationMessage('La cédula es obligatoria.'); return false; }
             if (!/^\d+$/.test(numberId)) { Swal.showValidationMessage('La cédula solo debe contener números.'); return false; }
             if (!patient) { Swal.showValidationMessage('El nombre del paciente es obligatorio.'); return false; }
-            if (!treatment) { Swal.showValidationMessage('Seleccione un tratamiento.'); return false; }
+            if (!phone) { Swal.showValidationMessage('El teléfono es obligatorio.'); return false; }
+            if (!email) { Swal.showValidationMessage('El correo electrónico es obligatorio.'); return false; }
+            if (apptType === 'tratamiento' && !treatment) { Swal.showValidationMessage('Seleccione un tratamiento.'); return false; }
             if (!dateVal) { Swal.showValidationMessage('Seleccione una fecha.'); return false; }
             if (!timeVal) { Swal.showValidationMessage('Seleccione una hora.'); return false; }
 
@@ -496,18 +513,19 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             if (hours < 7 || hours >= 18) { Swal.showValidationMessage('El horario de atención es de 7:00 AM a 6:00 PM.'); return false; }
 
             return {
+                appointment_type: apptType,
                 number_id:     numberId,
                 patient_name:  patient,
                 patient_phone: phone,
                 patient_email: email,
-                treatment_id:  treatment,
+                treatment_id:  apptType === 'tratamiento' ? treatment : '',
                 date_start:    dateVal + ' ' + timeVal + ':00',
                 duration:      duration,
                 notes:         notes
             };
         }
 
-        // ── Auto-llenar duración cuando cambia tratamiento ──
+        // ── Auto-llenar duración y toggle tratamiento según tipo ──
         function bindTreatmentDuration() {
             var sel = document.getElementById('swal-treatment');
             if (sel) {
@@ -517,6 +535,32 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     if (dur) document.getElementById('swal-duration').value = dur;
                 });
             }
+
+            // Toggle tratamiento/duración según tipo de cita
+            var typeSel = document.getElementById('swal-appt-type');
+            if (typeSel) {
+                typeSel.addEventListener('change', function() {
+                    var type = this.value;
+                    var treatGroup = document.getElementById('treatment-group');
+                    var durSel = document.getElementById('swal-duration');
+
+                    if (type === 'valoracion') {
+                        treatGroup.style.display = 'none';
+                        durSel.value = '40';
+                        durSel.disabled = true;
+                    } else if (type === 'revision') {
+                        treatGroup.style.display = 'none';
+                        durSel.value = '20';
+                        durSel.disabled = true;
+                    } else {
+                        treatGroup.style.display = 'block';
+                        durSel.disabled = false;
+                    }
+                });
+                // Disparar para estado inicial
+                typeSel.dispatchEvent(new Event('change'));
+            }
+
             // Checkbox para habilitar edición de cédula
             var chk = document.getElementById('swal-number-id-check');
             if (chk) {
@@ -611,7 +655,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                 + '<div class="appt-detail-row"><i class="fas fa-user"></i><div><strong>' + p.patient_name + '</strong></div></div>'
                 + (p.patient_phone ? '<div class="appt-detail-row"><i class="fas fa-phone"></i><div>' + p.patient_phone + '</div></div>' : '')
                 + (p.patient_email ? '<div class="appt-detail-row"><i class="fas fa-envelope"></i><div>' + p.patient_email + '</div></div>' : '')
-                + '<div class="appt-detail-row"><i class="fas fa-syringe"></i><div><strong>' + p.category + '</strong> → ' + p.treatment + '</div></div>'
+                + '<div class="appt-detail-row"><i class="fas fa-clipboard-list"></i><div><strong>Tipo:</strong> ' + (apptTypeLabels[p.appointment_type] || 'Tratamiento') + '</div></div>'
+                + (p.appointment_type === 'tratamiento' ? '<div class="appt-detail-row"><i class="fas fa-syringe"></i><div><strong>' + (p.category || '') + '</strong> → ' + (p.treatment || '') + '</div></div>' : '')
                 + '<div class="appt-detail-row"><i class="fas fa-clock"></i><div>' + startStr + (endStr ? ' — ' + endStr : '') + ' (' + p.duration + ' min)</div></div>'
                 + '<div class="appt-detail-row"><i class="fas fa-tag"></i><div><span class="appt-status-badge" style="background:' + color + '">' + label + '</span></div></div>'
                 + (p.notes ? '<div class="appt-detail-row"><i class="fas fa-sticky-note"></i><div style="color:#6b726d;font-style:italic;">' + p.notes + '</div></div>' : '')
@@ -653,7 +698,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             Swal.fire({
                 title: '<i class="fas fa-edit" style="color:#5a6b5c;margin-right:.5rem;"></i>Editar Cita',
                 html: appointmentFormHTML({
-                    _editMode:     true,
+                    _editMode:       true,
+                    appointment_type: p.appointment_type,
                     number_id:     p.number_id,
                     patient_name:  p.patient_name,
                     patient_phone: p.patient_phone,
@@ -872,7 +918,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                     var hh = String(start.getHours()).padStart(2,'0');
                     var mm = String(start.getMinutes()).padStart(2,'0');
                     var label = statusLabels[p.status] || p.status;
-                    var text = hh + ':' + mm + '  ' + p.patient_name + ' — ' + p.treatment + '  [' + label + ']';
+                    var treatLabel = p.appointment_type === 'tratamiento' ? p.treatment : (apptTypeLabels[p.appointment_type] || '');
+                    var text = hh + ':' + mm + '  ' + p.patient_name + ' — ' + treatLabel + '  [' + label + ']';
 
                     var tip = document.createElement('span');
                     tip.className = 'fc-event-tooltip';

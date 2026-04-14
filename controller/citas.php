@@ -59,13 +59,15 @@ if ($action === 'treatments') {
 // ── Listar historial de citas (para DataTables) ──
 if ($action === 'history_list') {
     $sql = "SELECT a.id, a.number_id, a.patient_name, a.patient_phone, a.patient_email,
-                   a.treatment_id, t.name AS treatment_name, tc.name AS category_name,
+                   a.appointment_type, a.treatment_id,
+                   COALESCE(t.name, '') AS treatment_name,
+                   COALESCE(tc.name, '') AS category_name,
                    a.duration, a.date_start, a.date_end, a.status,
                    a.cancel_reason, a.notes, a.created_by,
                    a.creation_date, a.update_date
             FROM appointments a
-            JOIN treatments t ON t.id = a.treatment_id
-            JOIN treatment_categories tc ON tc.id = t.category_id
+            LEFT JOIN treatments t ON t.id = a.treatment_id
+            LEFT JOIN treatment_categories tc ON tc.id = t.category_id
             ORDER BY a.date_start DESC";
     $result = mysqli_query($conn, $sql);
     $data = [];
@@ -83,12 +85,14 @@ if ($action === 'list') {
 
     $stmt = mysqli_prepare($conn,
         "SELECT a.id, a.number_id, a.patient_name, a.patient_phone, a.patient_email,
-                a.treatment_id, t.name AS treatment_name, tc.name AS category_name,
+                a.appointment_type, a.treatment_id,
+                COALESCE(t.name, '') AS treatment_name,
+                COALESCE(tc.name, '') AS category_name,
                 a.duration, a.date_start, a.date_end, a.status,
                 a.cancel_reason, a.notes, a.created_by
          FROM appointments a
-         JOIN treatments t ON t.id = a.treatment_id
-         JOIN treatment_categories tc ON tc.id = t.category_id
+         LEFT JOIN treatments t ON t.id = a.treatment_id
+         LEFT JOIN treatment_categories tc ON tc.id = t.category_id
          WHERE a.date_start >= ? AND a.date_end <= ?
          ORDER BY a.date_start"
     );
@@ -105,25 +109,35 @@ if ($action === 'list') {
         'no_presentado' => '#6b726d'
     ];
 
+    $typeLabels = ['valoracion' => 'Valoración', 'revision' => 'Revisión'];
+
     while ($row = mysqli_fetch_assoc($result)) {
+        // Título del evento según tipo de cita
+        if ($row['appointment_type'] === 'tratamiento' && !empty($row['treatment_name'])) {
+            $title = $row['patient_name'] . ' — ' . $row['treatment_name'];
+        } else {
+            $title = $row['patient_name'] . ' — ' . ($typeLabels[$row['appointment_type']] ?? '');
+        }
+
         $events[] = [
             'id'    => $row['id'],
-            'title' => $row['patient_name'] . ' — ' . $row['treatment_name'],
+            'title' => $title,
             'start' => $row['date_start'],
             'end'   => $row['date_end'],
             'color' => isset($statusColors[$row['status']]) ? $statusColors[$row['status']] : '#5a6b5c',
             'extendedProps' => [
-                'number_id'     => $row['number_id'],
-                'patient_name'  => $row['patient_name'],
-                'patient_phone' => $row['patient_phone'],
-                'patient_email' => $row['patient_email'],
-                'treatment_id'  => $row['treatment_id'],
-                'treatment'     => $row['treatment_name'],
-                'category'      => $row['category_name'],
-                'duration'      => $row['duration'],
-                'status'        => $row['status'],
-                'cancel_reason' => $row['cancel_reason'],
-                'notes'         => $row['notes']
+                'number_id'      => $row['number_id'],
+                'patient_name'   => $row['patient_name'],
+                'patient_phone'  => $row['patient_phone'],
+                'patient_email'  => $row['patient_email'],
+                'appointment_type' => $row['appointment_type'],
+                'treatment_id'   => $row['treatment_id'],
+                'treatment'      => $row['treatment_name'],
+                'category'       => $row['category_name'],
+                'duration'       => $row['duration'],
+                'status'         => $row['status'],
+                'cancel_reason'  => $row['cancel_reason'],
+                'notes'          => $row['notes']
             ]
         ];
     }
@@ -142,6 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // ── Crear cita ──
 if ($action === 'create') {
+    $appointment_type = isset($_POST['appointment_type']) ? trim($_POST['appointment_type']) : 'tratamiento';
     $number_id     = isset($_POST['number_id'])     ? trim($_POST['number_id'])     : '';
     $patient_name  = isset($_POST['patient_name'])  ? trim($_POST['patient_name'])  : '';
     $patient_phone = isset($_POST['patient_phone']) ? trim($_POST['patient_phone']) : '';
@@ -151,10 +166,32 @@ if ($action === 'create') {
     $date_start    = isset($_POST['date_start'])    ? trim($_POST['date_start'])    : '';
     $notes         = isset($_POST['notes'])         ? trim($_POST['notes'])         : '';
 
-    // Validaciones
-    if (empty($number_id) || empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
-        echo json_encode(['success' => false, 'message' => 'Cédula, nombre del paciente, tratamiento y fecha son obligatorios.']);
+    // Validar tipo de cita
+    $validTypes = ['valoracion', 'revision', 'tratamiento'];
+    if (!in_array($appointment_type, $validTypes)) {
+        echo json_encode(['success' => false, 'message' => 'Tipo de cita no válido.']);
         exit;
+    }
+
+    // Validaciones base
+    if (empty($number_id) || empty($patient_name) || empty($patient_phone) || empty($patient_email) || empty($date_start)) {
+        echo json_encode(['success' => false, 'message' => 'Cédula, nombre, teléfono, correo y fecha son obligatorios.']);
+        exit;
+    }
+
+    // Solo requerir tratamiento para tipo 'tratamiento'
+    if ($appointment_type === 'tratamiento' && $treatment_id <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Seleccione un tratamiento.']);
+        exit;
+    }
+
+    // Fijar duración según tipo de cita
+    if ($appointment_type === 'valoracion') {
+        $duration = 40;
+        $treatment_id = 0;
+    } elseif ($appointment_type === 'revision') {
+        $duration = 20;
+        $treatment_id = 0;
     }
 
     if (!ctype_digit($number_id)) {
@@ -185,15 +222,27 @@ if ($action === 'create') {
 
     $created_by = (int)$_SESSION['user_id'];
 
-    $stmt = mysqli_prepare($conn,
-        "INSERT INTO appointments (number_id, patient_name, patient_phone, patient_email, treatment_id, duration, date_start, date_end, status, notes, created_by)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'agendada', ?, ?)"
-    );
-    mysqli_stmt_bind_param($stmt, 'ssssiisssi',
-        $number_id, $patient_name, $patient_phone, $patient_email,
-        $treatment_id, $duration, $date_start, $date_end,
-        $notes, $created_by
-    );
+    if ($treatment_id > 0) {
+        $stmt = mysqli_prepare($conn,
+            "INSERT INTO appointments (number_id, patient_name, patient_phone, patient_email, appointment_type, treatment_id, duration, date_start, date_end, status, notes, created_by)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'agendada', ?, ?)"
+        );
+        mysqli_stmt_bind_param($stmt, 'sssssiisssi',
+            $number_id, $patient_name, $patient_phone, $patient_email,
+            $appointment_type, $treatment_id, $duration, $date_start, $date_end,
+            $notes, $created_by
+        );
+    } else {
+        $stmt = mysqli_prepare($conn,
+            "INSERT INTO appointments (number_id, patient_name, patient_phone, patient_email, appointment_type, treatment_id, duration, date_start, date_end, status, notes, created_by)
+             VALUES (?, ?, ?, ?, ?, NULL, ?, ?, ?, 'agendada', ?, ?)"
+        );
+        mysqli_stmt_bind_param($stmt, 'sssssisssi',
+            $number_id, $patient_name, $patient_phone, $patient_email,
+            $appointment_type, $duration, $date_start, $date_end,
+            $notes, $created_by
+        );
+    }
 
     if (mysqli_stmt_execute($stmt)) {
         $newId = mysqli_insert_id($conn);
@@ -201,21 +250,34 @@ if ($action === 'create') {
         // Enviar notificación por correo si hay email
         $emailSent = false;
         if (!empty($patient_email)) {
-            // Obtener nombre del tratamiento y categoría
-            $tStmt = mysqli_prepare($conn, "SELECT t.name AS treatment_name, tc.name AS category_name FROM treatments t JOIN treatment_categories tc ON tc.id = t.category_id WHERE t.id = ? LIMIT 1");
-            mysqli_stmt_bind_param($tStmt, 'i', $treatment_id);
-            mysqli_stmt_execute($tStmt);
-            $tResult = mysqli_stmt_get_result($tStmt);
-            $tData = mysqli_fetch_assoc($tResult);
-            mysqli_stmt_close($tStmt);
+            $treatmentName = '';
+            $categoryName  = '';
 
-            if ($tData) {
+            if ($appointment_type === 'tratamiento' && $treatment_id > 0) {
+                // Obtener nombre del tratamiento y categoría
+                $tStmt = mysqli_prepare($conn, "SELECT t.name AS treatment_name, tc.name AS category_name FROM treatments t JOIN treatment_categories tc ON tc.id = t.category_id WHERE t.id = ? LIMIT 1");
+                mysqli_stmt_bind_param($tStmt, 'i', $treatment_id);
+                mysqli_stmt_execute($tStmt);
+                $tResult = mysqli_stmt_get_result($tStmt);
+                $tData = mysqli_fetch_assoc($tResult);
+                mysqli_stmt_close($tStmt);
+                if ($tData) {
+                    $treatmentName = $tData['treatment_name'];
+                    $categoryName  = $tData['category_name'];
+                }
+            } else {
+                $apptTypeLabels = ['valoracion' => 'Valoración', 'revision' => 'Revisión'];
+                $treatmentName = $apptTypeLabels[$appointment_type] ?? '';
+                $categoryName  = 'Tipo de Cita';
+            }
+
+            if ($treatmentName) {
                 $emailSent = sendAppointmentEmail($conn, [
                     'patient_name'   => $patient_name,
                     'patient_email'  => $patient_email,
                     'patient_phone'  => $patient_phone,
-                    'treatment_name' => $tData['treatment_name'],
-                    'category_name'  => $tData['category_name'],
+                    'treatment_name' => $treatmentName,
+                    'category_name'  => $categoryName,
                     'date_start'     => $date_start,
                     'date_end'       => $date_end,
                     'duration'       => $duration,
@@ -239,7 +301,8 @@ if ($action === 'create') {
 
 // ── Actualizar cita (edición completa o drag & drop) ──
 if ($action === 'update') {
-    $id            = isset($_POST['id'])            ? (int)$_POST['id']            : 0;
+    $id              = isset($_POST['id'])              ? (int)$_POST['id']              : 0;
+    $appointment_type = isset($_POST['appointment_type']) ? trim($_POST['appointment_type']) : 'tratamiento';
     $number_id     = isset($_POST['number_id'])     ? trim($_POST['number_id'])     : '';
     $patient_name  = isset($_POST['patient_name'])  ? trim($_POST['patient_name'])  : '';
     $patient_phone = isset($_POST['patient_phone']) ? trim($_POST['patient_phone']) : '';
@@ -249,9 +312,30 @@ if ($action === 'update') {
     $date_start    = isset($_POST['date_start'])    ? trim($_POST['date_start'])    : '';
     $notes         = isset($_POST['notes'])         ? trim($_POST['notes'])         : '';
 
-    if ($id <= 0 || empty($number_id) || empty($patient_name) || $treatment_id <= 0 || empty($date_start)) {
-        echo json_encode(['success' => false, 'message' => 'Datos incompletos para actualizar.']);
+    // Validar tipo de cita
+    $validTypes = ['valoracion', 'revision', 'tratamiento'];
+    if (!in_array($appointment_type, $validTypes)) {
+        echo json_encode(['success' => false, 'message' => 'Tipo de cita no válido.']);
         exit;
+    }
+
+    if ($id <= 0 || empty($number_id) || empty($patient_name) || empty($patient_phone) || empty($patient_email) || empty($date_start)) {
+        echo json_encode(['success' => false, 'message' => 'Cédula, nombre, teléfono, correo y fecha son obligatorios.']);
+        exit;
+    }
+
+    if ($appointment_type === 'tratamiento' && $treatment_id <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Seleccione un tratamiento.']);
+        exit;
+    }
+
+    // Fijar duración según tipo de cita
+    if ($appointment_type === 'valoracion') {
+        $duration = 40;
+        $treatment_id = 0;
+    } elseif ($appointment_type === 'revision') {
+        $duration = 20;
+        $treatment_id = 0;
     }
 
     if (!ctype_digit($number_id)) {
@@ -274,16 +358,29 @@ if ($action === 'update') {
         exit;
     }
 
-    $stmt = mysqli_prepare($conn,
-        "UPDATE appointments SET number_id=?, patient_name=?, patient_phone=?, patient_email=?,
-                treatment_id=?, duration=?, date_start=?, date_end=?, notes=?
-         WHERE id=?"
-    );
-    mysqli_stmt_bind_param($stmt, 'ssssiisssi',
-        $number_id, $patient_name, $patient_phone, $patient_email,
-        $treatment_id, $duration, $date_start, $date_end,
-        $notes, $id
-    );
+    if ($treatment_id > 0) {
+        $stmt = mysqli_prepare($conn,
+            "UPDATE appointments SET number_id=?, patient_name=?, patient_phone=?, patient_email=?,
+                    appointment_type=?, treatment_id=?, duration=?, date_start=?, date_end=?, notes=?
+             WHERE id=?"
+        );
+        mysqli_stmt_bind_param($stmt, 'sssssiisssi',
+            $number_id, $patient_name, $patient_phone, $patient_email,
+            $appointment_type, $treatment_id, $duration, $date_start, $date_end,
+            $notes, $id
+        );
+    } else {
+        $stmt = mysqli_prepare($conn,
+            "UPDATE appointments SET number_id=?, patient_name=?, patient_phone=?, patient_email=?,
+                    appointment_type=?, treatment_id=NULL, duration=?, date_start=?, date_end=?, notes=?
+             WHERE id=?"
+        );
+        mysqli_stmt_bind_param($stmt, 'sssssisssi',
+            $number_id, $patient_name, $patient_phone, $patient_email,
+            $appointment_type, $duration, $date_start, $date_end,
+            $notes, $id
+        );
+    }
 
     if (mysqli_stmt_execute($stmt)) {
         echo json_encode(['success' => true, 'message' => 'Cita actualizada exitosamente.']);

@@ -390,6 +390,8 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             'no_presentado': 'No Presentado'
         };
 
+        var apptTypeLabels = { valoracion: 'Valoración', revision: 'Revisión', tratamiento: 'Tratamiento' };
+
         // ── Cargar tratamientos en el filtro ──
         fetch(API + '?action=treatments')
             .then(function(r) { return r.json(); })
@@ -428,6 +430,11 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                 {
                     data: 'treatment_name',
                     render: function(data, type, row) {
+                        if (row.appointment_type && row.appointment_type !== 'tratamiento') {
+                            var typeLabel = apptTypeLabels[row.appointment_type] || '';
+                            if (type === 'filter') return typeLabel;
+                            return '<span style="color:#5a6b5c;font-weight:500;">' + escapeHtml(typeLabel) + '</span>';
+                        }
                         if (type === 'filter') return data;
                         return '<span style="color:#5a6b5c;font-weight:500;">' + escapeHtml(data) + '</span>' +
                                '<br><small style="color:#8a9a8b;">' + escapeHtml(row.category_name) + '</small>';
@@ -579,7 +586,10 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             html += '<div class="detail-row"><i class="fas fa-user"></i><strong>Paciente</strong><span>' + escapeHtml(data.patient_name) + '</span></div>';
             html += '<div class="detail-row"><i class="fas fa-phone"></i><strong>Teléfono</strong><span>' + (data.patient_phone ? escapeHtml(data.patient_phone) : '<em style="color:#aaa;">No registrado</em>') + '</span></div>';
             html += '<div class="detail-row"><i class="fas fa-envelope"></i><strong>Correo</strong><span>' + (data.patient_email ? escapeHtml(data.patient_email) : '<em style="color:#aaa;">No registrado</em>') + '</span></div>';
-            html += '<div class="detail-row"><i class="fas fa-stethoscope"></i><strong>Tratamiento</strong><span>' + escapeHtml(data.treatment_name) + ' <small style="color:#8a9a8b;">(' + escapeHtml(data.category_name) + ')</small></span></div>';
+            html += '<div class="detail-row"><i class="fas fa-clipboard-list"></i><strong>Tipo</strong><span>' + (apptTypeLabels[data.appointment_type] || 'Tratamiento') + '</span></div>';
+            if (data.appointment_type === 'tratamiento' && data.treatment_name) {
+                html += '<div class="detail-row"><i class="fas fa-stethoscope"></i><strong>Tratamiento</strong><span>' + escapeHtml(data.treatment_name) + ' <small style="color:#8a9a8b;">(' + escapeHtml(data.category_name) + ')</small></span></div>';
+            }
             html += '<div class="detail-row"><i class="fas fa-calendar-day"></i><strong>Fecha</strong><span style="text-transform:capitalize;">' + fechaStr + '</span></div>';
             html += '<div class="detail-row"><i class="fas fa-clock"></i><strong>Horario</strong><span>' + horaInicio + ' — ' + horaFin + '</span></div>';
             html += '<div class="detail-row"><i class="fas fa-hourglass-half"></i><strong>Duración</strong><span>' + data.duration + ' minutos</span></div>';
