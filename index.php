@@ -65,7 +65,7 @@
         "url": "https://www.doctoraeddi.com",
         "logo": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
         "image": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
-        "telephone": "+573013537082",
+        "telephone": "+573013388063",
         "email": "doctora.eddi@gmail.com",
         "address": {
             "@type": "PostalAddress",

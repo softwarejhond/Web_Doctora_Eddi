@@ -28,8 +28,8 @@
                             </div>
                             <div>
                                 <span class="d-block" style="font-size: 0.9rem; color: #6b726d;">WhatsApp</span>
-                                <a href="https://wa.me/573013537082" class="text-decoration-none fw-semibold" target="_blank" style="font-size: 1.15rem; color: #434f44;">
-                                    +57 3013537082
+                                <a href="https://wa.me/573013388063" class="text-decoration-none fw-semibold" target="_blank" style="font-size: 1.15rem; color: #434f44;">
+                                    +57 3013388063
                                 </a>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
             document.getElementById('whatsapp-message').focus();
             return;
         }
-        const phone = '573013537082';
+        const phone = '573013388063';
         const url = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
         window.open(url, '_blank');
     }

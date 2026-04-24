@@ -226,8 +226,8 @@ function buildAppointmentEmailHTML($appt) {
                                         <table cellpadding="0" cellspacing="0" border="0">
                                             <tr>
                                                 <td style="padding:0 12px;">
-                                                    <a href="https://wa.me/573013537082" target="_blank" style="font-family:Inter,Helvetica,Arial,sans-serif;font-size:13px;color:#c4cec6;text-decoration:none;">
-                                                        &#128222; +57 3013537082
+                                                    <a href="https://wa.me/573013388063" target="_blank" style="font-family:Inter,Helvetica,Arial,sans-serif;font-size:13px;color:#c4cec6;text-decoration:none;">
+                                                        &#128222; +57 3013388063
                                                     </a>
                                                 </td>
                                                 <td style="padding:0 12px;border-left:1px solid #434f44;">
@@ -288,7 +288,7 @@ function buildAppointmentEmailText($appt) {
     $text .= "Edificio Cross Business, Consultorio 1102\n";
     $text .= "Medellín, Colombia\n\n";
     $text .= "CONTACTO:\n";
-    $text .= "WhatsApp: +57 3013537082\n";
+    $text .= "WhatsApp: +57 3013388063\n";
     $text .= "Correo: doctora.eddi@gmail.com\n";
     $text .= "Instagram: @doctora.eddi\n\n";
     $text .= "Recordatorio: Te recomendamos llegar 10 minutos antes de tu cita.\n\n";
