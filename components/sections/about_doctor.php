@@ -42,7 +42,7 @@
                     </p>
                 </div>
 
-                <div class="d-flex flex-wrap gap-3 mt-4">
+                <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 mt-4">
                     <div class="about-credential">
                         <i class="fas fa-graduation-cap me-2"></i>Universidad Cooperativa de Colombia
                     </div>
@@ -54,8 +54,8 @@
                     </div>
                 </div>
 
-                <div class="mt-4">
-                    <a href="#contacto" class="btn btn-primary">
+                <div class="mt-4 w-100">
+                    <a href="#contacto" class="btn btn-primary w-100">
                         <i class="fas fa-calendar-check me-2"></i>Agenda tu Valoración
                     </a>
                 </div>

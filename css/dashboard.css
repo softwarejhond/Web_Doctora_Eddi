@@ -404,6 +404,22 @@ body.dash-body {
     letter-spacing: .5px;
 }
 
+/* ===== STAT SPINNER (carga inicial) ===== */
+.stat-spinner {
+    font-size: 1rem;
+    color: #c4cec6;
+}
+
+/* ===== TABLA CITAS DE HOY ===== */
+#hoy-table tbody tr:hover {
+    background: #f5f3f0;
+}
+
+#hoy-table thead th {
+    background: transparent;
+    border-bottom: 2px solid #e8e4df;
+}
+
 /* ===== SweetAlert2 custom theme ===== */
 .swal2-popup.swal-custom {
     border-radius: 4px;

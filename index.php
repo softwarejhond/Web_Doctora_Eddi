@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" style="scroll-behavior: smooth;">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,24 +33,24 @@
     <meta name="geo.placename" content="Medellín">
     <meta name="geo.position" content="6.2088;-75.5742">
     <meta name="ICBM" content="6.2088, -75.5742">
-    
+
     <!-- Bootstrap CSS (local) -->
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Custom Bootstrap Colors & Buttons --> 
+
+    <!-- Custom Bootstrap Colors & Buttons -->
     <link href="css/custom-bootstrap.css?v=2.5" rel="stylesheet">
-    
+
     <!-- Accesibilidad WCAG 2.1 -->
     <link href="css/accessibility.css?v=1.0" rel="stylesheet">
-    
+
     <!-- Font Awesome para iconos -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
+
     <!-- Google Fonts - Inter (limpio y médico) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/logos/icono_eddi_claro.png">
     <link rel="shortcut icon" type="image/png" href="img/logos/icono_eddi_claro.png">
@@ -57,111 +58,109 @@
 
     <!-- Schema.org JSON-LD (Datos Estructurados) -->
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "MedicalBusiness",
-        "name": "Doctora Eddi — Medicina Estética e Integrativa",
-        "description": "Medicina estética con enfoque integrativo en Medellín. Tratamientos faciales, corporales, bioestimulación capilar, terapias con péptidos y protocolos personalizados.",
-        "url": "https://www.doctoraeddi.com",
-        "logo": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
-        "image": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
-        "telephone": "+573013388063",
-        "email": "doctora.eddi@gmail.com",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Carrera 43 A # 1 Sur - 50, Edificio Cross Business, Consultorio 1102",
-            "addressLocality": "Medellín",
-            "addressRegion": "Antioquia",
-            "addressCountry": "CO",
-            "postalCode": "050021"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 6.2088,
-            "longitude": -75.5742
-        },
-        "areaServed": {
-            "@type": "City",
-            "name": "Medellín"
-        },
-        "sameAs": [
-            "https://www.instagram.com/doctora.eddi"
-        ],
-        "medicalSpecialty": [
-            "Medicina Estética",
-            "Medicina Integrativa",
-            "Medicina Regenerativa"
-        ],
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Servicios Médicos",
-            "itemListElement": [
-                {
-                    "@type": "MedicalProcedure",
-                    "name": "Toxina Botulínica",
-                    "procedureType": "NoninvasiveProcedure"
-                },
-                {
-                    "@type": "MedicalProcedure",
-                    "name": "Bioestimuladores de Colágeno",
-                    "procedureType": "NoninvasiveProcedure"
-                },
-                {
-                    "@type": "MedicalProcedure",
-                    "name": "Bioestimulación Capilar",
-                    "procedureType": "NoninvasiveProcedure"
-                },
-                {
-                    "@type": "MedicalProcedure",
-                    "name": "Tratamiento para Melasma, Acné y Rosácea",
-                    "procedureType": "NoninvasiveProcedure"
-                },
-                {
-                    "@type": "MedicalProcedure",
-                    "name": "Terapias con Péptidos",
-                    "procedureType": "NoninvasiveProcedure"
-                },
-                {
-                    "@type": "MedicalProcedure",
-                    "name": "Reducción de Grasa Localizada",
-                    "procedureType": "NoninvasiveProcedure"
-                }
-            ]
+        {
+            "@context": "https://schema.org",
+            "@type": "MedicalBusiness",
+            "name": "Doctora Eddi — Medicina Estética e Integrativa",
+            "description": "Medicina estética con enfoque integrativo en Medellín. Tratamientos faciales, corporales, bioestimulación capilar, terapias con péptidos y protocolos personalizados.",
+            "url": "https://www.doctoraeddi.com",
+            "logo": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
+            "image": "https://www.doctoraeddi.com/img/logos/logo_eddi_claro.png",
+            "telephone": "+573013388063",
+            "email": "doctora.eddi@gmail.com",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Carrera 43 A # 1 Sur - 50, Edificio Cross Business, Consultorio 1102",
+                "addressLocality": "Medellín",
+                "addressRegion": "Antioquia",
+                "addressCountry": "CO",
+                "postalCode": "050021"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 6.2088,
+                "longitude": -75.5742
+            },
+            "areaServed": {
+                "@type": "City",
+                "name": "Medellín"
+            },
+            "sameAs": [
+                "https://www.instagram.com/doctora.eddi"
+            ],
+            "medicalSpecialty": [
+                "Medicina Estética",
+                "Medicina Integrativa",
+                "Medicina Regenerativa"
+            ],
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Servicios Médicos",
+                "itemListElement": [{
+                        "@type": "MedicalProcedure",
+                        "name": "Toxina Botulínica",
+                        "procedureType": "NoninvasiveProcedure"
+                    },
+                    {
+                        "@type": "MedicalProcedure",
+                        "name": "Bioestimuladores de Colágeno",
+                        "procedureType": "NoninvasiveProcedure"
+                    },
+                    {
+                        "@type": "MedicalProcedure",
+                        "name": "Bioestimulación Capilar",
+                        "procedureType": "NoninvasiveProcedure"
+                    },
+                    {
+                        "@type": "MedicalProcedure",
+                        "name": "Tratamiento para Melasma, Acné y Rosácea",
+                        "procedureType": "NoninvasiveProcedure"
+                    },
+                    {
+                        "@type": "MedicalProcedure",
+                        "name": "Terapias con Péptidos",
+                        "procedureType": "NoninvasiveProcedure"
+                    },
+                    {
+                        "@type": "MedicalProcedure",
+                        "name": "Reducción de Grasa Localizada",
+                        "procedureType": "NoninvasiveProcedure"
+                    }
+                ]
+            }
         }
-    }
     </script>
 
     <!-- Schema.org - Persona (Doctor) -->
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Physician",
-        "name": "Doctora Eddi",
-        "description": "Médica general con formación en medicina estética y medicina integrativa",
-        "url": "https://www.doctoraeddi.com",
-        "medicalSpecialty": ["Medicina Estética", "Medicina Integrativa"],
-        "alumniOf": [
-            {
-                "@type": "CollegeOrUniversity",
-                "name": "Universidad Cooperativa de Colombia"
-            },
-            {
-                "@type": "CollegeOrUniversity",
-                "name": "Universidad del Tolima"
-            },
-            {
-                "@type": "CollegeOrUniversity",
-                "name": "Universidad Pontificia Bolivariana"
+        {
+            "@context": "https://schema.org",
+            "@type": "Physician",
+            "name": "Doctora Eddi",
+            "description": "Médica general con formación en medicina estética y medicina integrativa",
+            "url": "https://www.doctoraeddi.com",
+            "medicalSpecialty": ["Medicina Estética", "Medicina Integrativa"],
+            "alumniOf": [{
+                    "@type": "CollegeOrUniversity",
+                    "name": "Universidad Cooperativa de Colombia"
+                },
+                {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Universidad del Tolima"
+                },
+                {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Universidad Pontificia Bolivariana"
+                }
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Carrera 43 A # 1 Sur - 50, Edificio Cross Business, Consultorio 1102",
+                "addressLocality": "Medellín",
+                "addressRegion": "Antioquia",
+                "addressCountry": "CO"
             }
-        ],
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Carrera 43 A # 1 Sur - 50, Edificio Cross Business, Consultorio 1102",
-            "addressLocality": "Medellín",
-            "addressRegion": "Antioquia",
-            "addressCountry": "CO"
         }
-    }
     </script>
 
     <style>
@@ -177,7 +176,7 @@
         .font-display {
             font-family: 'Playfair Display', Georgia, serif;
         }
-        
+
         /* ===== SECCIONES CON FONDO LIMPIO ===== */
         .med-section {
             background: #ffffff;
@@ -186,13 +185,13 @@
             margin-bottom: 2rem;
             border: 1px solid #e8e4df;
         }
-        
+
         .section-title {
             color: #2d332e !important;
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
-        
+
         /* ===== HEADER / NAVBAR ===== */
         .med-header {
             background: #434f44;
@@ -350,9 +349,18 @@
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 2.4rem; }
-            .hero-medical { min-height: auto; padding: 4rem 0; }
-            .hero-img-box img { height: 300px; }
+            .hero-title {
+                font-size: 2.4rem;
+            }
+
+            .hero-medical {
+                min-height: auto;
+                padding: 4rem 0;
+            }
+
+            .hero-img-box img {
+                height: 300px;
+            }
         }
 
         /* ===== CATÁLOGO DE ESPECIALIDADES ===== */
@@ -512,8 +520,13 @@
         }
 
         @media (max-width: 768px) {
-            .catalog-main-title { font-size: 1.8rem; }
-            .catalog-card { padding: 1.5rem; }
+            .catalog-main-title {
+                font-size: 1.8rem;
+            }
+
+            .catalog-card {
+                padding: 1.5rem;
+            }
         }
 
         /* ===== TIMELINE / PROCESO ===== */
@@ -552,13 +565,31 @@
             transform: translateY(0);
         }
 
-        .tl-left .tl-content { grid-column: 1; text-align: right; }
-        .tl-left .tl-dot { grid-column: 2; }
-        .tl-left .tl-image { grid-column: 3; }
+        .tl-left .tl-content {
+            grid-column: 1;
+            text-align: right;
+        }
 
-        .tl-right .tl-image { grid-column: 1; }
-        .tl-right .tl-dot { grid-column: 2; }
-        .tl-right .tl-content { grid-column: 3; text-align: left; }
+        .tl-left .tl-dot {
+            grid-column: 2;
+        }
+
+        .tl-left .tl-image {
+            grid-column: 3;
+        }
+
+        .tl-right .tl-image {
+            grid-column: 1;
+        }
+
+        .tl-right .tl-dot {
+            grid-column: 2;
+        }
+
+        .tl-right .tl-content {
+            grid-column: 3;
+            text-align: left;
+        }
 
         .tl-dot {
             grid-row: 1;
@@ -692,19 +723,27 @@
         }
 
         @media (max-width: 768px) {
-            .tl-line { left: 18px; }
+            .tl-line {
+                left: 18px;
+            }
+
             .tl-item {
                 display: flex;
                 flex-direction: column;
                 padding-left: 50px;
             }
+
             .tl-left .tl-content,
-            .tl-right .tl-content { text-align: left; }
+            .tl-right .tl-content {
+                text-align: left;
+            }
+
             .tl-dot {
                 position: absolute;
                 left: 0;
                 top: 0;
             }
+
             .tl-left .tl-content::after,
             .tl-right .tl-content::after {
                 left: -6px;
@@ -714,11 +753,33 @@
                 border-left: 1px solid #e8e4df;
                 border-bottom: 1px solid #e8e4df;
             }
-            .tl-left .tl-tags { justify-content: flex-start; }
-            .tl-image { order: 2; margin-top: 1rem; position: relative; min-height: 160px; }
-            .tl-content { order: 1; }
-            .tl-image img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-            .tl-title { font-size: 1.15rem; }
+
+            .tl-left .tl-tags {
+                justify-content: flex-start;
+            }
+
+            .tl-image {
+                order: 2;
+                margin-top: 1rem;
+                position: relative;
+                min-height: 160px;
+            }
+
+            .tl-content {
+                order: 1;
+            }
+
+            .tl-image img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .tl-title {
+                font-size: 1.15rem;
+            }
         }
 
         /* ===== CARRUSEL DE LOGOS ===== */
@@ -748,8 +809,13 @@
         }
 
         @keyframes logoScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-33.333%); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-33.333%);
+            }
         }
 
         .testimonial-card {
@@ -916,8 +982,13 @@
         }
 
         @media (max-width: 768px) {
-            .footer-contact { padding: 3rem 0 1.5rem; }
-            .footer-header h2 { font-size: 1.8rem !important; }
+            .footer-contact {
+                padding: 3rem 0 1.5rem;
+            }
+
+            .footer-header h2 {
+                font-size: 1.8rem !important;
+            }
         }
 
         /* ===== SOBRE LA DOCTORA ===== */
@@ -997,12 +1068,14 @@
             .about-img {
                 height: 350px;
             }
+
             .about-img-accent {
                 display: none;
             }
         }
     </style>
 </head>
+
 <body>
 
     <?php include 'components/header.php'; ?>
@@ -1041,10 +1114,10 @@
 
     <!-- Bootstrap JS (local) -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Accesibilidad JS -->
     <script src="js/accessibility.js?v=1.0"></script>
-    
+
     <script>
         // Timeline: reveal on scroll
         const tlObserver = new IntersectionObserver((entries) => {
@@ -1053,7 +1126,10 @@
                     entry.target.classList.add('tl-visible');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -40px 0px'
+        });
 
         document.querySelectorAll('.tl-item').forEach(item => {
             tlObserver.observe(item);
@@ -1090,7 +1166,9 @@
                     track.style.transform = '';
                     track.style.animation = '';
                 }, 1500);
-            }, { passive: false });
+            }, {
+                passive: false
+            });
         })();
 
         // Scroll Spy
@@ -1116,10 +1194,13 @@
                 });
             }
 
-            window.addEventListener('scroll', updateActive, { passive: true });
+            window.addEventListener('scroll', updateActive, {
+                passive: true
+            });
             updateActive();
         })();
     </script>
 
 </body>
+
 </html>

@@ -5,7 +5,7 @@
  */
 ?>
 
-<section id="section-catalog" class="catalog-section mb-5">
+<section id="section-catalog" class="catalog-section mb-5 mt-3">
     <div class="welcome-glass p-4 p-md-5">
         <!-- Encabezado de sección -->
         <div class="text-center mb-5">
@@ -24,105 +24,172 @@
         <!-- Grid de especialidades -->
         <div class="row g-4">
 
-            <!-- Medicina Estética Facial -->
-            <div class="col-lg-6">
-                <div class="catalog-card">
+            <!-- 1. Calidad de Piel -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#calidad-piel" class="catalog-card d-block h-100 text-decoration-none">
                     <div class="catalog-card-header">
                         <div class="catalog-icon-accent">
-                            <i class="fas fa-magic"></i>
+                            <i class="fas fa-droplet"></i>
                         </div>
                         <div>
-                            <h3 class="catalog-card-title">Medicina Estética Facial</h3>
-                            <span class="catalog-card-tag">Rejuvenecimiento avanzado</span>
+                            <h3 class="catalog-card-title">Calidad de Piel</h3>
+                            <span class="catalog-card-tag">Regulación y luminosidad</span>
                         </div>
                     </div>
                     <p class="catalog-card-desc">
-                        Tratamientos faciales y capilares de última generación para mejorar 
-                        la calidad de la piel y restaurar tu belleza natural con técnicas 
-                        mínimamente invasivas.
+                        Combinamos regulación metabólica con tratamientos faciales personalizados 
+                        para restaurar el equilibrio, reducir la inflamación y lograr una piel 
+                        más saludable y luminosa.
                     </p>
-                    <ul class="catalog-features">
-                        <li>Toxina botulínica (estética y médica)</li>
-                        <li>Bioestimuladores de colágeno</li>
-                        <li>Polinucleótidos regenerativos</li>
-                        <li>Tratamientos para melasma, acné y rosácea</li>
-                        <li>Bioestimulación capilar</li>
-                    </ul>
-                </div>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
             </div>
 
-            <!-- Medicina Integrativa -->
-            <div class="col-lg-6">
-                <div class="catalog-card">
+            <!-- 2. Acné -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#acne" class="catalog-card d-block h-100 text-decoration-none">
                     <div class="catalog-card-header">
                         <div class="catalog-icon-accent">
-                            <i class="fas fa-leaf"></i>
+                            <i class="fas fa-shield-halved"></i>
                         </div>
                         <div>
-                            <h3 class="catalog-card-title">Medicina Integrativa</h3>
-                            <span class="catalog-card-tag">Terapias regenerativas</span>
+                            <h3 class="catalog-card-title">Tratamiento de Acné</h3>
+                            <span class="catalog-card-tag">Control y prevención</span>
                         </div>
                     </div>
                     <p class="catalog-card-desc">
-                        Enfoque integral que combina terapias avanzadas con péptidos y 
-                        optimización metabólica para potenciar tu salud y rendimiento 
-                        desde el interior.
+                        Abordaje integral que regula los factores hormonales, inflamatorios y 
+                        metabólicos para controlar el acné, mejorar la microbiota cutánea y 
+                        prevenir recaídas.
                     </p>
-                    <ul class="catalog-features">
-                        <li>Terapias con péptidos bioactivos</li>
-                        <li>Optimización metabólica</li>
-                    </ul>
-                </div>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
             </div>
 
-            <!-- Medicina Estética Corporal -->
-            <div class="col-lg-6">
-                <div class="catalog-card">
+            <!-- 3. Melasma y Manchas -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#melasma" class="catalog-card d-block h-100 text-decoration-none">
                     <div class="catalog-card-header">
                         <div class="catalog-icon-accent">
-                            <i class="fas fa-spa"></i>
+                            <i class="fas fa-circle-half-stroke"></i>
                         </div>
                         <div>
-                            <h3 class="catalog-card-title">Medicina Estética Corporal</h3>
-                            <span class="catalog-card-tag">Remodelación corporal</span>
+                            <h3 class="catalog-card-title">Melasma y Manchas</h3>
+                            <span class="catalog-card-tag">Despigmentación progresiva</span>
                         </div>
                     </div>
                     <p class="catalog-card-desc">
-                        Tratamientos corporales especializados para la reducción de grasa 
-                        localizada, reafirmación de tejidos y mejora de la silueta corporal 
-                        con tecnología avanzada.
+                        Manejo personalizado que combina tratamiento médico y terapias faciales 
+                        avanzadas para disminuir la pigmentación, uniformar el tono y estabilizar 
+                        la piel.
                     </p>
-                    <ul class="catalog-features">
-                        <li>Reducción de grasa localizada</li>
-                        <li>Reafirmación de tejidos</li>
-                        <li>Protocolos de pérdida de peso</li>
-                        <li>Tratamientos reafirmantes</li>
-                    </ul>
-                </div>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
             </div>
 
-            <!-- Bienestar y Prevención -->
-            <div class="col-lg-6">
-                <div class="catalog-card">
+            <!-- 4. Rosácea -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#rosacea" class="catalog-card d-block h-100 text-decoration-none">
                     <div class="catalog-card-header">
                         <div class="catalog-icon-accent">
-                            <i class="fas fa-heartbeat"></i>
+                            <i class="fas fa-fire-flame-curved"></i>
                         </div>
                         <div>
-                            <h3 class="catalog-card-title">Bienestar y Prevención</h3>
-                            <span class="catalog-card-tag">Planes integrales</span>
+                            <h3 class="catalog-card-title">Rosácea</h3>
+                            <span class="catalog-card-tag">Piel inflamatoria crónica</span>
                         </div>
                     </div>
                     <p class="catalog-card-desc">
-                        Programas personalizados de bienestar que combinan prevención, 
-                        manejo de peso y salud integral para mejorar tu calidad de vida 
-                        a largo plazo.
+                        Identificamos y regulamos los factores desencadenantes para desinflamar, 
+                        fortalecer la barrera cutánea y devolver estabilidad y confort a la 
+                        piel sensible.
                     </p>
-                    <ul class="catalog-features">
-                        <li>Planes de bienestar personalizados</li>
-                        <li>Programas de pérdida de peso</li>
-                    </ul>
-                </div>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
+            </div>
+
+            <!-- 5. Activa tu Colágeno -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#colageno" class="catalog-card d-block h-100 text-decoration-none">
+                    <div class="catalog-card-header">
+                        <div class="catalog-icon-accent">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h3 class="catalog-card-title">Activa tu Colágeno</h3>
+                            <span class="catalog-card-tag">Bioestimulación y firmeza</span>
+                        </div>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Bioestimulación y terapias regenerativas con enfoque metabólico para 
+                        mejorar la firmeza, redefinir contornos y lograr una piel más densa 
+                        y rejuvenecida.
+                    </p>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
+            </div>
+
+            <!-- 6. Suaviza Arrugas -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#arrugas" class="catalog-card d-block h-100 text-decoration-none">
+                    <div class="catalog-card-header">
+                        <div class="catalog-icon-accent">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div>
+                            <h3 class="catalog-card-title">Suaviza Arrugas</h3>
+                            <span class="catalog-card-tag">Rejuvenecimiento natural</span>
+                        </div>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Combinación de toxina botulínica, skin boosters y medicamentos 
+                        biorreguladores para suavizar arrugas, aportar hidratación profunda 
+                        y lograr un rostro revitalizado.
+                    </p>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
+            </div>
+
+            <!-- 7. Recuperación Capilar -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#capilar" class="catalog-card d-block h-100 text-decoration-none">
+                    <div class="catalog-card-header">
+                        <div class="catalog-icon-accent">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div>
+                            <h3 class="catalog-card-title">Recuperación Capilar</h3>
+                            <span class="catalog-card-tag">Fortalecimiento capilar</span>
+                        </div>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Evaluamos el equilibrio metabólico, hormonal y nutricional para disminuir 
+                        la caída capilar, fortalecer el folículo y estimular un crecimiento 
+                        más sano y resistente.
+                    </p>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
+            </div>
+
+            <!-- 8. Bruxismo -->
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="tratamientos#bruxismo" class="catalog-card d-block h-100 text-decoration-none">
+                    <div class="catalog-card-header">
+                        <div class="catalog-icon-accent">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <div>
+                            <h3 class="catalog-card-title">Mejora tu Bruxismo</h3>
+                            <span class="catalog-card-tag">Relajación y armonía facial</span>
+                        </div>
+                    </div>
+                    <p class="catalog-card-desc">
+                        Toxina botulínica para relajar la musculatura, aliviar la tensión, 
+                        disminuir el desgaste dental y mejorar la armonía y el bienestar 
+                        facial de forma integral.
+                    </p>
+                    <span class="d-inline-flex align-items-center gap-1 mt-2 small fw-medium" style="color:#434f44;">Ver más <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></span>
+                </a>
             </div>
 
         </div>
@@ -132,9 +199,14 @@
             <p class="catalog-cta-text">
                 Transforma tu bienestar con medicina personalizada — agenda tu consulta hoy
             </p>
-            <a href="#contacto" class="btn btn-primary btn-lg">
-                <i class="fas fa-calendar-check me-2"></i>Contacta con Nosotros
-            </a>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="#contacto" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar-check me-2"></i>Contacta con Nosotros
+                </a>
+                <a href="tratamientos" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-notes-medical me-2"></i>Ver Tratamientos
+                </a>
+            </div>
         </div>
     </div>
 </section>
