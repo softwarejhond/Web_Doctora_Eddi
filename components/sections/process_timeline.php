@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="tl-image">
-                    <img src="img/consulta_4.jpeg" alt="Consulta médica — Placeholder" style="object-position: center 45%;">
+                    <img src="img/consulta_3.3.jpg" alt="Consulta médica - Placeholder" style="object-position: center 30%;">
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
             <div class="tl-item tl-right" data-step="02">
                 <div class="tl-dot"><span>2</span></div>
                 <div class="tl-image">
-                    <img src="img/valoracion_2.jpeg" alt="Diagnóstico — Placeholder" style="object-position: center 50%;">
+                    <img src="img/tratamiento_2.2.png" alt="Diagnóstico — Placeholder" style="object-position: center 33%;">
                 </div>
                 <div class="tl-content">
                     <span class="tl-label">Diagnóstico</span>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="tl-image">
-                    <img src="img/proceso_3.jpeg" alt="Plan de tratamiento — Placeholder" style="object-position: center 55%;">
+                    <img src="img/tratamiento_4.4.jpg" alt="Plan de tratamiento — Placeholder" style="object-position: center 30%;">
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
             <div class="tl-item tl-right" data-step="04">
                 <div class="tl-dot"><span>4</span></div>
                 <div class="tl-image">
-                    <img src="img/proceso_5.jpeg" alt="Tratamiento — Placeholder" style="object-position: center 35%;">
+                    <img src="img/tratamiento_5.5.jpg" alt="Tratamiento — Placeholder" style="object-position: center 40%;">
                 </div>
                 <div class="tl-content">
                     <span class="tl-label">Ejecución</span>
@@ -130,7 +130,7 @@
                     </div>
                 </div>
                 <div class="tl-image">
-                    <img src="img/seguimiento_1.jpeg" alt="Seguimiento médico — Placeholder" style="object-position: center 35%;">
+                    <img src="img/seguimiento_3.3.jpg" alt="Seguimiento médico — Placeholder" style="object-position: center 45%;">
                 </div>
             </div>
 

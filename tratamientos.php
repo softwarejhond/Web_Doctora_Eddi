@@ -447,7 +447,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_01.svg" alt="Calidad de Piel" class="trat-img-treatment">
+                    <img src="img/piel_1.png" alt="Calidad de Piel" class="trat-img-treatment">
                 </div>
             </div>
         </section>
@@ -482,7 +482,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_02.svg" alt="Acné" class="trat-img-treatment">
+                    <img src="img/consulta_1.1.jpg" alt="Acné" class="trat-img-treatment">
                 </div>
             </div>
         </section>
@@ -517,7 +517,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_03.svg" alt="Melasma y Manchas" class="trat-img-treatment">
+                    <img src="img/tratamiento_6.6.png" alt="Melasma y Manchas" class="trat-img-treatment">
                 </div>
             </div>
         </section>
@@ -552,7 +552,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_04.svg" alt="Rosácea" class="trat-img-treatment">
+                    <img src="img/proceso_4.jpeg" alt="Rosácea" class="trat-img-treatment">
                 </div>
             </div>
         </section>
@@ -588,7 +588,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_05.svg" alt="Activa tu Colágeno" class="trat-img-treatment">
+                    <img src="img/tratamiento_5.5.jpg" alt="Activa tu Colágeno" class="trat-img-treatment">
                 </div>
             </div>
         </section>
@@ -628,7 +628,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_06.svg" alt="Suaviza Arrugas" class="trat-img-treatment">
+                    <img src="img/proceso_1.1.jpg" alt="Suaviza Arrugas" class="trat-img-treatment">
                 </div>
             </div>
         </section>
@@ -663,7 +663,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_07.svg" alt="Recuperación Capilar" class="trat-img-treatment">
+                    <img src="img/valoracion_1.1.jpg" alt="Recuperación Capilar" class="trat-img-treatment">
                 </div>
             </div>
         </section>
@@ -702,7 +702,7 @@
                 </div>
                 <!-- Imagen -->
                 <div class="col-lg-4">
-                    <img src="img/tratamientos/tratamiento_08.svg" alt="Bruxismo" class="trat-img-treatment">
+                    <img src="img/proceso_6.6.png" alt="Bruxismo" class="trat-img-treatment">
                 </div>
             </div>
         </section>

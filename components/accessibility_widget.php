@@ -17,6 +17,37 @@
     <i class="fas fa-universal-access" aria-hidden="true"></i>
 </button>
 
+<!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/573013388063"
+   target="_blank"
+   rel="noopener noreferrer"
+   id="whatsapp-fab"
+   aria-label="Contactar por WhatsApp"
+   title="WhatsApp"
+   style="
+       position: fixed;
+       right: 24px;
+       top: calc(50% + 72px);
+       z-index: 10000;
+       width: 56px;
+       height: 56px;
+       border-radius: 50%;
+       border: 2px solid #ffffff;
+       background: #25d366;
+       color: #ffffff;
+       font-size: 1.5rem;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+       text-decoration: none;
+       transition: background 0.2s ease;
+   "
+   onmouseover="this.style.background='#1ebe5d'"
+   onmouseout="this.style.background='#25d366'">
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+</a>
+
 <!-- Panel de accesibilidad -->
 <div id="a11y-panel" class="a11y-panel" role="dialog" aria-label="Opciones de accesibilidad" aria-hidden="true">
     <div class="a11y-panel-header">

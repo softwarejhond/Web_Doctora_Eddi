@@ -12,7 +12,7 @@
             <!-- Imagen -->
             <div class="col-lg-5">
                 <div class="about-img-wrapper">
-                    <img src="img/valoracion_4.jpeg" alt="Doctora Eddi — Medicina Estética e Integrativa" class="about-img">
+                    <img src="img/hero_four.png" alt="Doctora Eddi — Medicina Estética e Integrativa" class="about-img">
                     <div class="about-img-accent"></div>
                 </div>
             </div>
