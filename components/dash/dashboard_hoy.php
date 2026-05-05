@@ -51,6 +51,18 @@ $r = mysqli_query($conn,
 );
 $porConfirmar = (int)mysqli_fetch_assoc($r)['n'];
 
+// 5. Visitas totales a la landing
+$r = mysqli_query($conn, "SELECT COUNT(*) AS n FROM page_visits");
+$visitasTotal = (int)mysqli_fetch_assoc($r)['n'];
+
+// 6. Visitas este mes
+$r = mysqli_query($conn,
+    "SELECT COUNT(*) AS n FROM page_visits
+     WHERE MONTH(visited_at) = MONTH(NOW())
+       AND YEAR(visited_at)  = YEAR(NOW())"
+);
+$visitasMes = (int)mysqli_fetch_assoc($r)['n'];
+
 // ── Citas de hoy ────────────────────────────────────────────
 $sql = "SELECT a.id,
                a.patient_name,
@@ -81,6 +93,8 @@ echo json_encode([
         'pacientes'     => $pacientes,
         'consultas_mes' => $consultasMes,
         'por_confirmar' => $porConfirmar,
+        'visitas_total' => $visitasTotal,
+        'visitas_mes'   => $visitasMes,
     ],
     'appointments' => $appointments,
 ]);

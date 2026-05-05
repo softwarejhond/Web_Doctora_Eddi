@@ -62,7 +62,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
 
             <!-- Stats rápidos -->
             <div class="row g-3 mb-4">
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md">
                     <div class="dash-stat-card">
                         <div class="dash-stat-icon"><i class="fas fa-calendar-check"></i></div>
                         <div class="dash-stat-number" id="stat-citas-hoy">
@@ -71,7 +71,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                         <div class="dash-stat-label">Citas Hoy</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md">
                     <div class="dash-stat-card">
                         <div class="dash-stat-icon"><i class="fas fa-user-injured"></i></div>
                         <div class="dash-stat-number" id="stat-pacientes">
@@ -80,7 +80,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                         <div class="dash-stat-label">Pacientes</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md">
                     <div class="dash-stat-card">
                         <div class="dash-stat-icon"><i class="fas fa-notes-medical"></i></div>
                         <div class="dash-stat-number" id="stat-consultas-mes">
@@ -89,13 +89,22 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
                         <div class="dash-stat-label">Consultas Mes</div>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md">
                     <div class="dash-stat-card">
                         <div class="dash-stat-icon"><i class="fas fa-clock"></i></div>
                         <div class="dash-stat-number" id="stat-por-confirmar">
                             <span class="stat-spinner"><i class="fas fa-circle-notch fa-spin"></i></span>
                         </div>
                         <div class="dash-stat-label">Por Confirmar</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md">
+                    <div class="dash-stat-card">
+                        <div class="dash-stat-icon"><i class="fas fa-eye"></i></div>
+                        <div class="dash-stat-number" id="stat-visitas">
+                            <span class="stat-spinner"><i class="fas fa-circle-notch fa-spin"></i></span>
+                        </div>
+                        <div class="dash-stat-label">Visitas Web</div>
                     </div>
                 </div>
             </div>
@@ -170,6 +179,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             pacientes   : document.getElementById('stat-pacientes'),
             consultasMes: document.getElementById('stat-consultas-mes'),
             porConfirmar: document.getElementById('stat-por-confirmar'),
+            visitas     : document.getElementById('stat-visitas'),
             loading     : document.getElementById('hoy-loading'),
             table       : document.getElementById('hoy-table'),
             tbody       : document.getElementById('hoy-tbody'),
@@ -192,6 +202,7 @@ $rolLabel = isset($rolNames[$rol]) ? $rolNames[$rol] : 'Usuario';
             animateNumber(els.pacientes,    stats.pacientes);
             animateNumber(els.consultasMes, stats.consultas_mes);
             animateNumber(els.porConfirmar, stats.por_confirmar);
+            animateNumber(els.visitas,      stats.visitas_total);
         }
 
         function renderAppointments(appointments) {
