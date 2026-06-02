@@ -27,6 +27,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
                 <li><a href="index" class="dash-nav-link <?php echo $currentPage === 'index' ? 'active' : ''; ?>"><i class="fas fa-home me-1"></i> Inicio</a></li>
                 <?php if ($rol === 1): ?>
                 <li><a href="usuarios" class="dash-nav-link <?php echo $currentPage === 'usuarios' ? 'active' : ''; ?>"><i class="fas fa-users me-1"></i> Usuarios</a></li>
+                <li><a href="anuncios" class="dash-nav-link <?php echo $currentPage === 'anuncios' ? 'active' : ''; ?>"><i class="fas fa-bullhorn me-1"></i> Anuncios</a></li>
                 <?php endif; ?>
                 <li><a href="citas" class="dash-nav-link <?php echo $currentPage === 'citas' ? 'active' : ''; ?>"><i class="fas fa-calendar-alt me-1"></i> Citas</a></li>
                 <li><a href="historial" class="dash-nav-link <?php echo $currentPage === 'historial' ? 'active' : ''; ?>"><i class="fas fa-file-medical me-1"></i> Historial</a></li>

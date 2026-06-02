@@ -1141,60 +1141,68 @@ try {
     <!-- SweetAlert2 (local) -->
     <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
-    <!-- Popup Día de la Madre — solo en mayo -->
+    <!-- Popup Promocional — gestionado desde el Dashboard -->
+    <?php
+    // ── Buscar anuncio activo y vigente (el más reciente) ───────────────────
+    $__anuncio = null;
+    try {
+        $__today = date('Y-m-d');
+        $__sa = $conn->prepare(
+            'SELECT id, titulo, imagen, wa_numero, wa_mensaje, texto_boton, delay_ms
+               FROM anuncios
+              WHERE activo = 1
+                AND fecha_inicio <= ?
+                AND fecha_fin    >= ?
+              ORDER BY creation_date DESC
+              LIMIT 1'
+        );
+        $__sa->bind_param('ss', $__today, $__today);
+        $__sa->execute();
+        $__anuncio = $__sa->get_result()->fetch_assoc();
+        $__sa->close();
+    } catch (Exception $__e) { /* silencioso */ }
+
+    if ($__anuncio):
+        // Determinar src de la imagen (URL externa o archivo local)
+        $__imgSrc = (strpos($__anuncio['imagen'], 'http') === 0)
+            ? htmlspecialchars($__anuncio['imagen'], ENT_QUOTES, 'UTF-8')
+            : 'img/anuncios/' . htmlspecialchars($__anuncio['imagen'], ENT_QUOTES, 'UTF-8');
+
+        $__popupId  = 'popup_anuncio_' . (int)$__anuncio['id'];
+        $__waNum    = htmlspecialchars($__anuncio['wa_numero'],   ENT_QUOTES, 'UTF-8');
+        $__waMsg    = json_encode($__anuncio['wa_mensaje'],        JSON_UNESCAPED_UNICODE);
+        $__btnTxt   = htmlspecialchars($__anuncio['texto_boton'], ENT_QUOTES, 'UTF-8');
+        $__titulo   = htmlspecialchars($__anuncio['titulo'],       ENT_QUOTES, 'UTF-8');
+        $__delay    = (int)$__anuncio['delay_ms'];
+    ?>
     <style>
-        @keyframes swalMamaIn {
-            from {
-                opacity: 0;
-                transform: scale(0.88) translateY(28px);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        @keyframes swalPromoIn {
+            from { opacity: 0; transform: scale(0.88) translateY(28px); }
+            to   { opacity: 1; transform: scale(1)    translateY(0);    }
         }
-
-        @keyframes swalMamaOut {
-            from {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: scale(0.93) translateY(16px);
-            }
+        @keyframes swalPromoOut {
+            from { opacity: 1; transform: scale(1)    translateY(0);    }
+            to   { opacity: 0; transform: scale(0.93) translateY(16px); }
         }
-
-        .swal-mama-show {
-            animation: swalMamaIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-        }
-
-        .swal-mama-hide {
-            animation: swalMamaOut 0.3s ease forwards;
-        }
-
-        .swal-mama-popup {
+        .swal-promo-show { animation: swalPromoIn  0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .swal-promo-hide { animation: swalPromoOut 0.3s ease forwards; }
+        .swal-promo-popup {
             border: 1px solid #e8e4df !important;
-            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.22) !important;
+            box-shadow: 0 32px 80px rgba(0,0,0,.22) !important;
             border-radius: 2px !important;
         }
-
-        .swal-mama-close {
+        .swal-promo-close {
             color: #8a9a8b !important;
             font-size: 1.4rem !important;
             top: 0.6rem !important;
             right: 0.8rem !important;
         }
-
-        .swal-mama-close:hover {
+        .swal-promo-close:hover {
             color: #434f44 !important;
             background: #f5f3f0 !important;
             border-radius: 2px !important;
         }
-
-        .swal-mama-wa-btn {
+        .swal-promo-wa-btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1212,63 +1220,49 @@ try {
             text-transform: uppercase;
             transition: background 0.2s ease;
         }
-
-        .swal-mama-wa-btn:hover {
-            background: #2d332e;
-            color: #ffffff;
-        }
-
+        .swal-promo-wa-btn:hover { background: #2d332e; color: #ffffff; }
         .swal2-backdrop-show {
             backdrop-filter: blur(5px) !important;
-            background: rgba(67, 79, 68, 0.35) !important;
+            background: rgba(67,79,68,.35) !important;
         }
     </style>
 
     <script>
         (function() {
-            const ahora = new Date();
-            const esMayo = ahora.getMonth() === 4 && ahora.getFullYear() === 2026;
-            const yaVisto = sessionStorage.getItem('popup_mama_mayo_2026');
-            if (!esMayo || yaVisto) return;
-            sessionStorage.setItem('popup_mama_mayo_2026', '1');
+            var popupKey = <?php echo json_encode($__popupId); ?>;
+            if (sessionStorage.getItem(popupKey)) return;
+            sessionStorage.setItem(popupKey, '1');
 
-            const waMsg = encodeURIComponent(
-                'Hola Doctora Eddi , estoy interesada en el Tratamiento para Mamá ' +
-                'con el 14% de descuento del mes de mayo. ¿Me podría dar más información?'
-            );
-            const waUrl = 'https://wa.me/573013388063?text=' + waMsg;
+            var waUrl = 'https://wa.me/<?php echo $__waNum; ?>?text=' + encodeURIComponent(<?php echo $__waMsg; ?>);
 
             setTimeout(function() {
                 Swal.fire({
-                    html: '<img src="img/tratamientos/alert_dia_madres.png"' +
-                        ' alt="Tratamiento para Mamá — 14% de descuento en mayo"' +
-                        ' style="width:100%;border-radius:2px;display:block;margin-bottom:1.1rem;">' +
-                        '<a href="' + waUrl + '"' +
-                        '   target="_blank" rel="noopener noreferrer"' +
-                        '   class="swal-mama-wa-btn">' +
-                        '  <i class="fab fa-whatsapp" style="font-size:1.1rem;"></i>' +
-                        '  Quiero este tratamiento para mamá' +
-                        '</a>',
+                    html: '<img src="<?php echo $__imgSrc; ?>"' +
+                          ' alt="<?php echo $__titulo; ?>"' +
+                          ' style="width:100%;border-radius:2px;display:block;margin-bottom:1.1rem;">' +
+                          '<a href="' + waUrl + '"' +
+                          '   target="_blank" rel="noopener noreferrer"' +
+                          '   class="swal-promo-wa-btn">' +
+                          '  <i class="fab fa-whatsapp" style="font-size:1.1rem;"></i>' +
+                          '  <?php echo $__btnTxt; ?>' +
+                          '</a>',
                     showConfirmButton: false,
-                    showCloseButton: true,
+                    showCloseButton:   true,
                     background: '#ffffff',
-                    width: 'min(680px, 94vw)',
-                    padding: '1.2rem 1.2rem 1.4rem',
-                    backdrop: true,
-                    showClass: {
-                        popup: 'swal-mama-show'
-                    },
-                    hideClass: {
-                        popup: 'swal-mama-hide'
-                    },
+                    width:      'min(680px, 94vw)',
+                    padding:    '1.2rem 1.2rem 1.4rem',
+                    backdrop:   true,
+                    showClass:  { popup: 'swal-promo-show' },
+                    hideClass:  { popup: 'swal-promo-hide' },
                     customClass: {
-                        popup: 'swal-mama-popup',
-                        closeButton: 'swal-mama-close'
+                        popup:       'swal-promo-popup',
+                        closeButton: 'swal-promo-close'
                     }
                 });
-            }, 1400);
+            }, <?php echo $__delay; ?>);
         })();
     </script>
+    <?php endif; ?>
 
     <script>
         // Timeline: reveal on scroll

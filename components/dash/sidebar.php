@@ -37,6 +37,9 @@ $currentPage = isset($currentPage) ? $currentPage : basename($_SERVER['PHP_SELF'
             <a href="usuarios" class="dash-sidebar-item <?php echo $currentPage === 'usuarios' ? 'active' : ''; ?>">
                 <i class="fas fa-users-cog"></i> Gestionar Usuarios
             </a>
+            <a href="anuncios" class="dash-sidebar-item <?php echo $currentPage === 'anuncios' ? 'active' : ''; ?>">
+                <i class="fas fa-bullhorn"></i> Anuncios / Popups
+            </a>
         </div>
         <?php endif; ?>
 
